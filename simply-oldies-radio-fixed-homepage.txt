@@ -233,6 +233,42 @@
     #sor-home-hub .sor-listen-block { grid-column:auto; }
     #sor-home-hub .sor-feature-panel { padding:13px; }
   }
+  /* Keep the Listen Live icon white in normal, hover, focus and pressed states. */
+  #sor-home-hub #sor-hero-live-mount a:hover,
+  #sor-home-hub #sor-hero-live-mount a:focus,
+  #sor-home-hub #sor-hero-live-mount a:active,
+  #sor-home-hub #sor-hero-live-mount a:hover *,
+  #sor-home-hub #sor-hero-live-mount a:focus *,
+  #sor-home-hub #sor-hero-live-mount a:active *,
+  #sor-home-hub #sor-hero-live-mount button:hover,
+  #sor-home-hub #sor-hero-live-mount button:focus,
+  #sor-home-hub #sor-hero-live-mount button:active,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:hover,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:focus,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:active,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:hover *,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:focus *,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:active * {
+    color:#fff!important;
+    -webkit-text-fill-color:#fff!important;
+  }
+  #sor-home-hub #sor-hero-live-mount a:hover i,
+  #sor-home-hub #sor-hero-live-mount a:focus i,
+  #sor-home-hub #sor-hero-live-mount a:active i,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:hover i,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:focus i,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:active i,
+  #sor-home-hub #sor-hero-live-mount a:hover svg,
+  #sor-home-hub #sor-hero-live-mount a:focus svg,
+  #sor-home-hub #sor-hero-live-mount a:active svg,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:hover svg,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:focus svg,
+  #sor-home-hub #sor-hero-live-mount .elementor-button:active svg {
+    color:#fff!important;
+    -webkit-text-fill-color:#fff!important;
+    fill:#fff!important;
+  }
+
   /* Keep the Pro.Radio play/pause glyph white inside the relocated live button. */
   #sor-home-hub .sor-sidebar-action-slot .qtmplayer__play,
   #sor-home-hub .sor-sidebar-action-slot .qtmplayer__play i,
