@@ -283,6 +283,21 @@
     opacity:1!important;
   }
 
+  /* Align the Pro.Radio play/pause glyph precisely with the button label. */
+  #sor-home-hub #sor-hero-live-mount a.qtmplayer-play > i.material-icons {
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    flex:0 0 17px!important;
+    width:17px!important;
+    height:17px!important;
+    margin:0 5px 0 0!important;
+    padding:0!important;
+    font-size:17px!important;
+    line-height:1!important;
+    vertical-align:middle!important;
+  }
+
   /* Keep the Pro.Radio play/pause glyph white inside the relocated live button. */
   #sor-home-hub .sor-sidebar-action-slot .qtmplayer__play,
   #sor-home-hub .sor-sidebar-action-slot .qtmplayer__play i,
