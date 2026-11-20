@@ -1,3 +1,798 @@
+
+<!-- =========================================================
+     SIMPLY OLDIES RADIO — EDITORIAL HOMEPAGE; original SOR features retained.
+     ========================================================= -->
+<section id="sor-home-hub" class="sor-hub" aria-label="Simply Oldies Radio homepage">
+  <div class="sor-home-heading">
+    <div>
+      <p class="sor-eyebrow">SIMPLY OLDIES RADIO</p>
+      <h1>Latest from Simply Oldies</h1>
+      <p class="sor-home-intro">The Music You Grew Up With</p>
+    </div>
+    <a class="sor-schedule-link" href="https://simplyoldies.com/schedule/">View programme schedule <span aria-hidden="true">›</span></a>
+  </div>
+
+  <div class="sor-home-columns">
+    <main class="sor-editorial-column">
+      <div class="sor-section-heading">
+        <h2>Music news</h2>
+        <span>50s · 60s · 70s · 80s · 90s</span>
+      </div>
+      <div class="sor-news-toolbar">
+        <div class="sor-news-filters" role="group" aria-label="Filter news by decade">
+          <button type="button" class="sor-filter-btn is-active" data-era="all">All</button>
+          <button type="button" class="sor-filter-btn" data-era="50s-60s">50s &amp; 60s</button>
+          <button type="button" class="sor-filter-btn" data-era="70s">70s</button>
+          <button type="button" class="sor-filter-btn" data-era="80s">80s</button>
+          <button type="button" class="sor-filter-btn" data-era="90s">90s</button>
+        </div>
+        <button type="button" id="sor-news-refresh" class="sor-refresh-btn" title="Refresh headlines">↻ Refresh</button>
+      </div>
+      <div id="sor-news-list" class="sor-news-list" aria-live="polite">
+        <div class="sor-news-loading">Loading 1950s–1990s music industry news…</div>
+      </div>
+      <div class="sor-news-footer">
+        <span id="sor-news-status">Music news from across the decades</span>
+        <span id="sor-news-updated"></span>
+      </div>
+    </main>
+
+    <aside class="sor-sidebar" aria-label="Listen to Simply Oldies Radio">
+      <section class="sor-sidebar-block sor-listen-block">
+        <div class="sor-sidebar-heading">
+          <h2>Listen to Simply Oldies</h2>
+          <span class="sor-live-indicator"><i></i> ON AIR</span>
+        </div>
+
+        <div class="sor-now-playing">
+          <span class="sor-now-label">NOW PLAYING</span>
+          <div class="sor-now-playing-content">
+            <div class="sor-now-art-wrap">
+              <img id="sor-now-playing-art" class="sor-now-playing-art" alt="Currently playing album artwork" loading="lazy" hidden />
+              <img id="sor-now-playing-art-fallback" class="sor-now-playing-art-fallback" src="https://simplyoldies.com/wp-content/uploads/2017/01/SOR-Updated-Logo-With-Tagline-PFP-6.png" alt="Simply Oldies Radio" />
+            </div>
+            <strong id="sor-now-playing-track" aria-live="polite">Connecting to the music…</strong>
+          </div>
+        </div>
+
+        <div id="sor-hero-live-mount" class="sor-sidebar-action-slot">
+          <a href="#listen-live" id="sor-hero-live-fallback" class="sor-sidebar-button sor-primary-button">▶ Listen Live</a>
+        </div>
+        <div id="sor-hero-schedule-mount" class="sor-sidebar-action-slot">
+          <a href="https://simplyoldies.com/schedule/" id="sor-hero-schedule-fallback" class="sor-sidebar-button sor-secondary-button">View the schedule</a>
+        </div>
+      </section>
+
+      <a class="sor-promo-card sor-app-promo" href="https://simplyoldies.com/listen-on-the-app/">
+        <span class="sor-promo-kicker">TAKE US WITH YOU</span>
+        <strong>Listen on our app</strong>
+        <span>Simply Oldies Radio, wherever you go <b aria-hidden="true">›</b></span>
+      </a>
+      <a class="sor-promo-card sor-app-promo" href="https://simplyoldies.com/listen-on-alexa/">
+        <span class="sor-promo-kicker">LISTEN ON ALEXA</span>
+        <strong>Listen on Alexa</strong>
+        <span>Enjoy Simply Oldies Radio on your Amazon Echo <b aria-hidden="true">›</b></span>
+      </a>
+    </aside>
+  </div>
+
+  <div class="sor-feature-row">
+    <section class="sor-feature-panel sor-weather-panel">
+      <div class="sor-feature-heading">
+        <div><p class="sor-eyebrow">PLAN YOUR DAY</p><h2>Your local weather</h2></div>
+        <button type="button" id="sor-wx-gps-btn" class="sor-wx-gps-btn" title="Use your device location">◎ Locate me</button>
+      </div>
+      <div class="sor-wx-body">
+        <form id="sor-wx-form" class="sor-wx-search" autocomplete="off">
+          <input type="text" id="sor-wx-input" class="sor-wx-input" placeholder="Search town or city…" aria-label="Search town or city" />
+          <button type="submit" class="sor-wx-search-btn">Go</button>
+        </form>
+        <div class="sor-wx-current-card">
+          <div class="sor-wx-subhdr"><span class="sor-wx-subtitle">CURRENT CONDITIONS</span><span id="sor-wx-location" class="sor-wx-location">Not set</span></div>
+          <div id="sor-wx-current" class="sor-wx-current-content"><div class="sor-wx-loading">Search for a place or use Locate me.</div></div>
+        </div>
+        <div class="sor-wx-forecast-card">
+          <div class="sor-wx-subhdr"><span class="sor-wx-subtitle">7-DAY FORECAST</span><span class="sor-wx-unit-tag">°C</span></div>
+          <div id="sor-wx-forecast" class="sor-wx-forecast-list"><div class="sor-wx-loading">Your forecast will appear here.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sor-feature-panel sor-otd-panel">
+      <div class="sor-feature-heading">
+        <div><p class="sor-eyebrow">A LOOK BACK</p><h2>On this day in music</h2></div>
+        <span id="sor-otd-date-badge" class="sor-date-badge">TODAY</span>
+      </div>
+      <div id="sor-otd-body" class="sor-otd-body" aria-live="polite"><div class="sor-wx-loading">Loading 50s–90s music history…</div></div>
+    </section>
+  </div>
+</section>
+
+<style>
+  #sor-home-hub, #sor-home-hub * { box-sizing:border-box; }
+  #sor-home-hub.sor-hub {
+    --sor-burgundy:#4f0335; --sor-burgundy-dark:#350124; --sor-gold:#d3a300;
+    --sor-ink:#242027; --sor-muted:#716b73; --sor-border:#e9e5e8; --sor-soft:#f7f5f6;
+    width:100%; max-width:1320px; margin:24px auto 54px; padding:0 24px;
+    color:var(--sor-ink); font-family:inherit; -webkit-font-smoothing:antialiased;
+  }
+  #sor-home-hub a { color:inherit; }
+  #sor-home-hub .sor-home-heading { display:flex; align-items:end; justify-content:space-between; gap:20px; margin:0 0 22px; padding:0 0 15px; border-bottom:1px solid var(--sor-border); }
+  #sor-home-hub .sor-eyebrow { margin:0 0 5px; color:var(--sor-burgundy); font-size:10px; font-weight:800; letter-spacing:1.15px; text-transform:uppercase; }
+  #sor-home-hub .sor-home-heading h1 { margin:0!important; color:var(--sor-ink)!important; font-size:clamp(25px,3vw,34px)!important; line-height:1.12!important; font-weight:800!important; letter-spacing:-.6px!important; }
+  #sor-home-hub .sor-home-intro { margin:6px 0 0!important; color:var(--sor-muted)!important; font-size:14px!important; }
+  #sor-home-hub .sor-schedule-link { color:var(--sor-burgundy); font-size:12px; font-weight:700; text-decoration:none; white-space:nowrap; }
+  #sor-home-hub .sor-schedule-link:hover { text-decoration:underline; }
+  #sor-home-hub .sor-home-columns { display:grid; grid-template-columns:minmax(0,1.9fr) minmax(270px,.82fr); gap:26px; align-items:start; }
+  #sor-home-hub .sor-section-heading { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:0 0 12px; }
+  #sor-home-hub .sor-section-heading h2, #sor-home-hub .sor-feature-heading h2 { margin:0!important; color:var(--sor-ink)!important; font-size:19px!important; line-height:1.2!important; font-weight:800!important; }
+  #sor-home-hub .sor-section-heading>span { color:var(--sor-muted); font-size:10px; font-weight:700; }
+  #sor-home-hub .sor-news-toolbar { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:13px; padding-bottom:10px; border-bottom:1px solid var(--sor-border); }
+  #sor-home-hub .sor-news-filters { display:flex; flex-wrap:wrap; gap:5px; }
+  #sor-home-hub button.sor-filter-btn, #sor-home-hub button.sor-refresh-btn { appearance:none!important; border:0!important; border-radius:2px!important; background:transparent!important; color:var(--sor-muted)!important; padding:6px 9px!important; min-height:0!important; height:auto!important; font-size:11px!important; line-height:1.2!important; font-weight:700!important; box-shadow:none!important; cursor:pointer!important; }
+  #sor-home-hub button.sor-filter-btn.is-active { background:var(--sor-burgundy)!important; color:#fff!important; }
+  #sor-home-hub button.sor-filter-btn:hover, #sor-home-hub button.sor-refresh-btn:hover { color:var(--sor-burgundy)!important; }
+  #sor-home-hub button.sor-refresh-btn { white-space:nowrap; }
+  #sor-home-hub .sor-news-list { min-width:0; }
+  #sor-home-hub .sor-news-featured { margin-bottom:14px; }
+  #sor-home-hub .sor-news-card { display:block; min-width:0; overflow:hidden; background:#fff; border:1px solid var(--sor-border); text-decoration:none!important; transition:border-color .18s ease,box-shadow .18s ease; }
+  #sor-home-hub .sor-news-card:hover { border-color:#cfc3cb; box-shadow:0 5px 18px rgba(30,15,25,.07); }
+  #sor-home-hub .sor-news-image-wrap { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; background:#eee9ec; }
+  #sor-home-hub .sor-news-image { display:block; width:100%; height:100%; object-fit:cover; transition:transform .35s ease; }
+  #sor-home-hub .sor-news-card:hover .sor-news-image { transform:scale(1.025); }
+  #sor-home-hub .sor-news-image-fallback { display:none; position:absolute; inset:0; align-items:center; justify-content:center; color:#fff; background:var(--sor-burgundy); font-size:34px; }
+  #sor-home-hub .sor-news-image-wrap.is-empty .sor-news-image-fallback { display:flex; }
+  #sor-home-hub .sor-news-copy { padding:11px 12px 13px; }
+  #sor-home-hub .sor-news-meta { display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin-bottom:6px; }
+  #sor-home-hub .sor-era-pill { color:var(--sor-burgundy); font-size:9px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; }
+  #sor-home-hub .sor-news-source, #sor-home-hub .sor-news-time { color:var(--sor-muted); font-size:10px; }
+  #sor-home-hub .sor-news-headline { margin:0!important; color:var(--sor-burgundy)!important; font-size:14px!important; line-height:1.35!important; font-weight:750!important; }
+  #sor-home-hub .sor-news-excerpt { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; margin:7px 0 0!important; color:var(--sor-muted)!important; font-size:12px!important; line-height:1.45!important; }
+  #sor-home-hub .sor-news-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
+  #sor-home-hub .sor-news-grid .sor-news-image-wrap { aspect-ratio:16/9; }
+  #sor-home-hub .sor-news-grid .sor-news-copy { padding:9px 10px 11px; }
+  #sor-home-hub .sor-news-grid .sor-news-headline { font-size:12px!important; line-height:1.35!important; }
+  #sor-home-hub .sor-news-footer { display:flex; justify-content:space-between; gap:12px; margin-top:13px; padding-top:9px; border-top:1px solid var(--sor-border); color:var(--sor-muted); font-size:10px; }
+  #sor-home-hub .sor-news-loading, #sor-home-hub .sor-wx-loading { padding:24px 12px; color:var(--sor-muted); text-align:center; font-size:12px; }
+  #sor-home-hub .sor-sidebar { display:flex; flex-direction:column; gap:13px; }
+  #sor-home-hub .sor-sidebar-block { border:1px solid var(--sor-border); background:#fff; }
+  #sor-home-hub .sor-listen-block { padding:15px; border-top:4px solid var(--sor-burgundy); }
+  #sor-home-hub .sor-sidebar-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:13px; }
+  #sor-home-hub .sor-sidebar-heading h2 { margin:0!important; color:var(--sor-ink)!important; font-size:15px!important; font-weight:800!important; }
+  #sor-home-hub .sor-live-indicator { display:inline-flex; align-items:center; gap:5px; color:var(--sor-burgundy); font-size:9px; font-weight:800; letter-spacing:.5px; }
+  #sor-home-hub .sor-live-indicator i { width:7px; height:7px; border-radius:50%; background:#c42d42; }
+  #sor-home-hub .sor-now-playing { padding:12px 0; }
+  #sor-home-hub .sor-now-label { display:block; margin-bottom:4px; color:var(--sor-burgundy); font-size:9px; font-weight:800; letter-spacing:.8px; }
+  #sor-home-hub .sor-now-playing-content { display:flex; align-items:center; gap:11px; margin-top:8px; min-width:0; }
+  #sor-home-hub .sor-now-art-wrap { position:relative; flex:0 0 62px; width:62px; height:62px; overflow:hidden; background:#eee9ec; }
+  #sor-home-hub .sor-now-playing-art, #sor-home-hub .sor-now-playing-art-fallback { display:block; width:100%; height:100%; object-fit:cover; }
+  #sor-home-hub .sor-now-playing-art[hidden] { display:none!important; }
+  #sor-home-hub #sor-now-playing-track { display:block; min-width:0; color:var(--sor-ink); font-size:12px; line-height:1.4; overflow-wrap:anywhere; }
+  #sor-home-hub .sor-sidebar-action-slot { display:flex; width:100%; margin-top:8px; }
+  #sor-home-hub .sor-sidebar-action-slot>div, #sor-home-hub .sor-sidebar-action-slot .elementor-widget-container, #sor-home-hub .sor-sidebar-action-slot .elementor-button-wrapper { width:100%!important; margin:0!important; padding:0!important; }
+  #sor-home-hub .sor-sidebar-button, #sor-home-hub .sor-sidebar-action-slot a, #sor-home-hub .sor-sidebar-action-slot button, #sor-home-hub .sor-sidebar-action-slot .elementor-button, #sor-home-hub .sor-sidebar-action-slot .proradio-btn { display:flex!important; align-items:center!important; justify-content:center!important; width:100%!important; min-height:38px!important; padding:9px 12px!important; border:1px solid var(--sor-burgundy)!important; border-radius:2px!important; background:var(--sor-burgundy)!important; color:#fff!important; font-size:11px!important; font-weight:800!important; text-decoration:none!important; text-transform:none!important; box-shadow:none!important; }
+  #sor-home-hub .sor-sidebar-action-slot .sor-secondary-button, #sor-home-hub .sor-secondary-button { background:#fff!important; color:var(--sor-burgundy)!important; }
+  #sor-home-hub .sor-promo-card { display:flex; flex-direction:column; gap:5px; min-height:112px; padding:16px; color:#fff!important; text-decoration:none!important; background:linear-gradient(115deg,#650544,var(--sor-burgundy)); }
+  #sor-home-hub .sor-app-promo { background:linear-gradient(115deg,#650544,#3c0229); }
+  #sor-home-hub .sor-promo-kicker { color:#e7c5d9; font-size:9px; font-weight:800; letter-spacing:1px; }
+  #sor-home-hub .sor-promo-card strong { color:#fff; font-size:18px; line-height:1.2; }
+  #sor-home-hub .sor-promo-card>span:last-child { color:rgba(255,255,255,.82); font-size:11px; line-height:1.4; }
+  #sor-home-hub .sor-promo-card b { float:right; font-size:18px; }
+  #sor-home-hub .sor-feature-row { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:22px; margin-top:28px; }
+  #sor-home-hub .sor-feature-panel { min-width:0; padding:17px; border:1px solid var(--sor-border); background:#fff; }
+  #sor-home-hub .sor-feature-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; padding-bottom:13px; border-bottom:1px solid var(--sor-border); }
+  #sor-home-hub .sor-feature-heading h2 { font-size:17px!important; }
+  #sor-home-hub .sor-date-badge { color:var(--sor-burgundy); font-size:10px; font-weight:800; }
+  #sor-home-hub button.sor-wx-gps-btn, #sor-home-hub button.sor-wx-search-btn { appearance:none!important; border:1px solid var(--sor-burgundy)!important; border-radius:2px!important; background:#fff!important; color:var(--sor-burgundy)!important; padding:7px 10px!important; min-height:0!important; height:auto!important; font-size:10px!important; font-weight:800!important; box-shadow:none!important; cursor:pointer!important; }
+  #sor-home-hub .sor-wx-body { display:flex; flex-direction:column; gap:12px; padding-top:13px; }
+  #sor-home-hub .sor-wx-search { display:flex; gap:7px; }
+  #sor-home-hub input.sor-wx-input { flex:1; min-width:0; height:35px!important; padding:0 10px!important; border:1px solid var(--sor-border)!important; border-radius:2px!important; background:#fff!important; color:var(--sor-ink)!important; font-size:12px!important; box-shadow:none!important; }
+  #sor-home-hub .sor-wx-current-card, #sor-home-hub .sor-wx-forecast-card { border:1px solid var(--sor-border); }
+  #sor-home-hub .sor-wx-subhdr { display:flex; justify-content:space-between; gap:8px; padding:8px 10px; background:var(--sor-soft); }
+  #sor-home-hub .sor-wx-subtitle { color:var(--sor-burgundy); font-size:9px; font-weight:800; letter-spacing:.7px; }
+  #sor-home-hub .sor-wx-location { color:var(--sor-muted); font-size:10px; }
+  #sor-home-hub .sor-wx-unit-tag { color:var(--sor-burgundy); font-size:10px; }
+  #sor-home-hub .sor-wx-current-content { padding:12px; }
+  #sor-home-hub .sor-wx-now-main { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  #sor-home-hub .sor-wx-now-left { display:flex; align-items:center; gap:10px; }
+  #sor-home-hub .sor-wx-now-icon { font-size:28px; }
+  #sor-home-hub .sor-wx-now-temp { color:var(--sor-burgundy); font-size:25px; font-weight:800; line-height:1; }
+  #sor-home-hub .sor-wx-now-desc { margin-top:3px; color:var(--sor-ink); font-size:11px; }
+  #sor-home-hub .sor-wx-now-stats { color:var(--sor-muted); text-align:right; font-size:10px; line-height:1.5; }
+  #sor-home-hub .sor-wx-forecast-list { padding:5px 10px; }
+  #sor-home-hub .sor-wx-day-row { display:grid; grid-template-columns:70px 22px minmax(0,1fr) auto; align-items:center; gap:6px; padding:6px 0; border-bottom:1px solid var(--sor-border); font-size:10px; }
+  #sor-home-hub .sor-wx-day-row:last-child { border-bottom:0; }
+  #sor-home-hub .sor-wx-day-name { color:var(--sor-ink); font-weight:700; }
+  #sor-home-hub .sor-wx-day-icon { text-align:center; }
+  #sor-home-hub .sor-wx-day-cond { overflow:hidden; color:var(--sor-muted); white-space:nowrap; text-overflow:ellipsis; }
+  #sor-home-hub .sor-wx-day-temps { display:flex; gap:6px; white-space:nowrap; font-weight:700; }
+  #sor-home-hub .sor-wx-hi { color:var(--sor-burgundy); }
+  #sor-home-hub .sor-wx-lo { color:var(--sor-muted); }
+  #sor-home-hub .sor-otd-body { display:flex; flex-direction:column; gap:12px; padding-top:14px; }
+  #sor-home-hub .sor-otd-top-row { display:flex; justify-content:space-between; gap:8px; }
+  #sor-home-hub .sor-otd-year-badge { color:var(--sor-burgundy); font-size:12px; font-weight:800; }
+  #sor-home-hub .sor-otd-era-label { color:var(--sor-muted); font-size:9px; font-weight:800; letter-spacing:.6px; text-transform:uppercase; }
+  #sor-home-hub .sor-otd-text { margin:0!important; color:var(--sor-ink)!important; font-size:13px!important; line-height:1.65!important; }
+  #sor-home-hub .sor-otd-text strong { color:var(--sor-burgundy); }
+  #sor-home-hub .sor-otd-image { display:block; width:100%; max-height:210px; object-fit:cover; }
+  @media(max-width:900px) {
+    #sor-home-hub .sor-home-columns { grid-template-columns:minmax(0,1fr) 280px; gap:18px; }
+    #sor-home-hub.sor-hub { padding:0 18px; }
+  }
+  @media(max-width:700px) {
+    #sor-home-hub .sor-home-columns, #sor-home-hub .sor-feature-row { grid-template-columns:1fr; }
+    #sor-home-hub .sor-sidebar { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+    #sor-home-hub .sor-listen-block { grid-column:1/-1; }
+  }
+  @media(max-width:480px) {
+    #sor-home-hub.sor-hub { padding:0 12px; margin-top:16px; }
+    #sor-home-hub .sor-home-heading { align-items:flex-start; flex-direction:column; gap:8px; }
+    #sor-home-hub .sor-section-heading { align-items:flex-start; flex-direction:column; gap:4px; }
+    #sor-home-hub .sor-news-grid { gap:9px; }
+    #sor-home-hub .sor-news-grid .sor-news-copy { padding:8px; }
+    #sor-home-hub .sor-news-grid .sor-news-headline { font-size:11px!important; }
+    #sor-home-hub .sor-news-toolbar { align-items:flex-start; }
+    #sor-home-hub .sor-sidebar { grid-template-columns:1fr; }
+    #sor-home-hub .sor-listen-block { grid-column:auto; }
+    #sor-home-hub .sor-feature-panel { padding:13px; }
+  }
+  @media(prefers-reduced-motion:reduce) {
+    #sor-home-hub * { scroll-behavior:auto!important; transition:none!important; }
+  }
+</style>
+
+<script>
+(function () {
+  "use strict";
+
+  /* =========================================================
+     0. MOVE SOURCE WIDGETS INTO HERO & HIDE LEFTOVER CONTAINERS
+     ========================================================= */
+  function moveAndHideSourceButtons() {
+    const hub = document.getElementById("sor-home-hub");
+    const liveMount = document.getElementById("sor-hero-live-mount");
+    const scheduleMount = document.getElementById("sor-hero-schedule-mount");
+    const liveFallback = document.getElementById("sor-hero-live-fallback");
+    const scheduleFallback = document.getElementById("sor-hero-schedule-fallback");
+
+    if (!hub) return;
+
+    const allSources = Array.from(
+      document.querySelectorAll(".so-live-btn-source, .so-schedule-btn-source")
+    );
+
+    let liveSource = null;
+    let scheduleSource = null;
+
+    allSources.forEach((widget) => {
+      const isScheduleClass = widget.classList.contains("so-schedule-btn-source");
+      const text = (widget.textContent || "").toLowerCase();
+      const link = widget.querySelector("a");
+      const href = link ? (link.getAttribute("href") || "").toLowerCase() : "";
+
+      if (isScheduleClass || href.includes("schedule") || text.includes("schedule")) {
+        if (!scheduleSource) scheduleSource = widget;
+        else widget.style.setProperty("display", "none", "important");
+      } else if (!liveSource) {
+        liveSource = widget;
+      } else {
+        widget.style.setProperty("display", "none", "important");
+      }
+    });
+
+    [
+      { mount: liveMount, widget: liveSource, fallback: liveFallback },
+      { mount: scheduleMount, widget: scheduleSource, fallback: scheduleFallback }
+    ].forEach(({ mount, widget, fallback }) => {
+      if (!mount) return;
+      if (!widget) {
+        if (fallback) fallback.style.removeProperty("display");
+        return;
+      }
+
+      const oldParent = widget.closest(".e-con, .elementor-section, .elementor-widget");
+      if (!mount.contains(widget)) mount.appendChild(widget);
+      widget.style.setProperty("display", "block", "important");
+      if (fallback) fallback.remove();
+
+      if (oldParent && !hub.contains(oldParent)) {
+        const hasOtherVisibleContent = Array.from(
+          oldParent.querySelectorAll("img, a, button, nav, ul, h1, h2, h3, h4, p")
+        ).some((el) => {
+          if (hub.contains(el) || widget.contains(el)) return false;
+          const style = window.getComputedStyle(el);
+          return style.display !== "none" && style.visibility !== "hidden";
+        });
+
+        if (!hasOtherVisibleContent) {
+          oldParent.style.setProperty("display", "none", "important");
+        }
+      }
+    });
+  }
+
+  moveAndHideSourceButtons();
+  document.addEventListener("DOMContentLoaded", moveAndHideSourceButtons);
+  window.addEventListener("load", moveAndHideSourceButtons);
+
+  /* =========================================================
+     1. MUSIC INDUSTRY NEWS (1950s–1990s AUTO-FILTERED RSS)
+     ========================================================= */
+  const NEWS_CACHE_KEY = "sor_50s_90s_news_v2";
+  const NEWS_CACHE_TTL = 30 * 60 * 1000;
+
+  const RSS_SOURCES = [
+    { name:"Ultimate Classic Rock", url:"https://ultimateclassicrock.com/feed/", trustedHeritage:true },
+    { name:"Louder / Classic Rock", url:"https://www.loudersound.com/feeds.xml", trustedHeritage:true },
+    { name:"Music Business Worldwide", url:"https://www.musicbusinessworldwide.com/feed/", trustedHeritage:false },
+    { name:"NME", url:"https://www.nme.com/news/music/feed", trustedHeritage:false }
+  ];
+
+  const INAPPROPRIATE_NEWS_TERMS = [
+    "sex slave","sex-slave","sexualizing","sexualising","onlyfans","porn",
+    "nsfw","erotic","explicit","nude","naked","rape","sexual assault",
+    "assault","abuse","abuser","predator","harassment","overdose",
+    "cocaine","heroin","fentanyl","meth","drug bust","suicide","suicidal",
+    "murder","homicide","stabbing","shooting","arrested","indicted",
+    "charged with","lawsuit","scandal","feud","beefs","beef with",
+    "elon musk","waifu","ai influencer","claudia"
+  ];
+
+  const ERA_RULES = [
+    {
+      era:"50s-60s", label:"50s & 60s",
+      terms:[
+        "1950s","1960s","50s","60s","elvis","beatles","john lennon","paul mccartney",
+        "george harrison","ringo starr","rolling stones","mick jagger","keith richards",
+        "bob dylan","beach boys","brian wilson","aretha franklin","motown","supremes",
+        "diana ross","marvin gaye","stevie wonder","ray charles","johnny cash",
+        "buddy holly","chuck berry","little richard","frank sinatra","roy orbison",
+        "the who","pete townshend","kinks","ray davies","doors","jim morrison",
+        "jimi hendrix","janis joplin","simon & garfunkel","woodstock","british invasion",
+        "otis redding","sam cooke","james brown","tina turner","ike & tina","monkees"
+      ]
+    },
+    {
+      era:"70s", label:"70s",
+      terms:[
+        "1970s","70s","led zeppelin","robert plant","jimmy page","pink floyd",
+        "roger waters","david gilmour","queen","freddie mercury","brian may",
+        "david bowie","elton john","fleetwood mac","stevie nicks","lindsey buckingham",
+        "abba","bee gees","disco","punk","sex pistols","the clash","ramones",
+        "blondie","debbie harry","eagles","don henley","bruce springsteen",
+        "billy joel","rod stewart","eric clapton","black sabbath","ozzy osbourne",
+        "deep purple","ac/dc","bon scott","aerosmith","lynyrd skynyrd","carole king",
+        "joni mitchell","neil young","cat stevens","bob marley","glam rock","t. rex"
+      ]
+    },
+    {
+      era:"80s", label:"80s",
+      terms:[
+        "1980s","80s","michael jackson","madonna","prince","whitney houston",
+        "george michael","wham!","duran duran","depeche mode","the cure","robert smith",
+        "the smiths","morrissey","u2","bono","phil collins","genesis","peter gabriel",
+        "dire straits","mark knopfler","police","sting","eurythmics","annie lennox",
+        "kate bush","pet shop boys","tears for fears","new order","joy division",
+        "bon jovi","guns n' roses","axl rose","slash","def leppard","iron maiden",
+        "metallica","van halen","journey","toto","hall & oates","cyndi lauper",
+        "lionel richie","new wave","synth-pop","live aid","mtv"
+      ]
+    },
+    {
+      era:"90s", label:"90s",
+      terms:[
+        "1990s","90s","oasis","noel gallagher","liam gallagher","blur","damon albarn",
+        "pulp","jarvis cocker","britpop","nirvana","kurt cobain","dave grohl",
+        "pearl jam","soundgarden","alice in chains","grunge","radiohead","r.e.m.",
+        "red hot chili peppers","green day","weezer","smashing pumpkins","spice girls",
+        "take that","robbie williams","mariah carey","celine dion","janet jackson",
+        "george michael","shania twain","alanis morissette","cranberries","dolores o'riordan",
+        "verve","richard ashcroft","stone roses","manic street preachers","prodigy"
+      ]
+    }
+  ];
+
+  const GENERAL_CLASSIC_TERMS = [
+    "classic rock","oldies","reissue","box set","remaster","remastered",
+    "anniversary edition","vinyl","catalog","catalogue","hall of fame",
+    "archival","unreleased","gold disc","platinum"
+  ];
+
+  <!-- =========================================================
+     SIMPLY OLDIES RADIO — EDITORIAL HOMEPAGE
+     Complete homepage: music news, live player, weather and music history.
+     ========================================================= -->
+<section id="sor-home-hub" class="sor-hub" aria-label="Simply Oldies Radio homepage">
+  <div class="sor-home-heading">
+    <div>
+      <p class="sor-eyebrow">SIMPLY OLDIES RADIO</p>
+      <h1>Latest from Simply Oldies</h1>
+      <p class="sor-home-intro">The Music You Grew Up With</p>
+    </div>
+  </div>
+
+  <div class="sor-home-columns">
+    <main class="sor-editorial-column">
+      <div class="sor-section-heading">
+        <h2>Music news</h2>
+        <span>50s · 60s · 70s · 80s · 90s</span>
+      </div>
+      <div class="sor-news-toolbar">
+        <div class="sor-news-filters" role="group" aria-label="Filter news by decade">
+          <button type="button" class="sor-filter-btn is-active" data-era="all">All</button>
+          <button type="button" class="sor-filter-btn" data-era="50s-60s">50s &amp; 60s</button>
+          <button type="button" class="sor-filter-btn" data-era="70s">70s</button>
+          <button type="button" class="sor-filter-btn" data-era="80s">80s</button>
+          <button type="button" class="sor-filter-btn" data-era="90s">90s</button>
+        </div>
+        <button type="button" id="sor-news-refresh" class="sor-refresh-btn" title="Refresh headlines">↻ Refresh</button>
+      </div>
+      <div id="sor-news-list" class="sor-news-list" aria-live="polite">
+        <div class="sor-news-loading">Loading 1950s–1990s music industry news…</div>
+      </div>
+      <div class="sor-news-footer">
+        <span id="sor-news-status">Music news from across the decades</span>
+        <span id="sor-news-updated"></span>
+      </div>
+    </main>
+
+    <aside class="sor-sidebar" aria-label="Listen to Simply Oldies Radio">
+      <section class="sor-sidebar-block sor-listen-block">
+        <div class="sor-sidebar-heading">
+          <h2>Listen to Simply Oldies</h2>
+          <span class="sor-live-indicator"><i></i> ON AIR</span>
+        </div>
+        <div class="sor-now-playing">
+          <span class="sor-now-label">NOW PLAYING</span>
+          <div class="sor-now-playing-content">
+            <div class="sor-now-art-wrap">
+              <img id="sor-now-playing-art" class="sor-now-playing-art" alt="Currently playing album artwork" loading="lazy" hidden>
+              <img id="sor-now-playing-art-fallback" class="sor-now-playing-art-fallback" src="https://simplyoldies.com/wp-content/uploads/2017/01/SOR-Updated-Logo-With-Tagline-PFP-6.png" alt="Simply Oldies Radio">
+            </div>
+            <strong id="sor-now-playing-track" aria-live="polite">Connecting to the music…</strong>
+          </div>
+        </div>
+        <div id="sor-hero-live-mount" class="sor-sidebar-action-slot">
+          <a href="#listen-live" id="sor-hero-live-fallback" class="sor-sidebar-button sor-primary-button">▶ Listen Live</a>
+        </div>
+        <div id="sor-hero-schedule-mount" class="sor-sidebar-action-slot">
+          <a href="https://simplyoldies.com/schedule/" id="sor-hero-schedule-fallback" class="sor-sidebar-button sor-secondary-button">View the schedule</a>
+        </div>
+      </section>
+      <a class="sor-promo-card sor-app-promo" href="https://simplyoldies.com/listen-on-the-app/">
+        <span class="sor-promo-kicker">TAKE US WITH YOU</span>
+        <strong>Listen on our app</strong>
+        <span>Simply Oldies Radio, wherever you go <b aria-hidden="true">›</b></span>
+      </a>
+      <a class="sor-promo-card sor-app-promo" href="https://simplyoldies.com/listen-on-alexa/">
+        <span class="sor-promo-kicker">LISTEN ON ALEXA</span>
+        <strong>Listen on Alexa</strong>
+        <span>Enjoy Simply Oldies Radio on your Amazon Echo <b aria-hidden="true">›</b></span>
+      </a>
+    </aside>
+  </div>
+
+  <div class="sor-feature-row">
+    <section class="sor-feature-panel sor-weather-panel">
+      <div class="sor-feature-heading">
+        <div><p class="sor-eyebrow">PLAN YOUR DAY</p><h2>Your local weather</h2></div>
+        <button type="button" id="sor-wx-gps-btn" class="sor-wx-gps-btn" title="Use your device location">◎ Locate me</button>
+      </div>
+      <div class="sor-wx-body">
+        <form id="sor-wx-form" class="sor-wx-search" autocomplete="off">
+          <input type="text" id="sor-wx-input" class="sor-wx-input" placeholder="Search town or city…" aria-label="Search town or city">
+          <button type="submit" class="sor-wx-search-btn">Go</button>
+        </form>
+        <div class="sor-wx-current-card">
+          <div class="sor-wx-subhdr"><span class="sor-wx-subtitle">CURRENT CONDITIONS</span><span id="sor-wx-location" class="sor-wx-location">Not set</span></div>
+          <div id="sor-wx-current" class="sor-wx-current-content"><div class="sor-wx-loading">Search for a place or use Locate me.</div></div>
+        </div>
+        <div class="sor-wx-forecast-card">
+          <div class="sor-wx-subhdr"><span class="sor-wx-subtitle">7-DAY FORECAST</span><span class="sor-wx-unit-tag">°C</span></div>
+          <div id="sor-wx-forecast" class="sor-wx-forecast-list"><div class="sor-wx-loading">Your forecast will appear here.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sor-feature-panel sor-otd-panel">
+      <div class="sor-feature-heading">
+        <div><p class="sor-eyebrow">A LOOK BACK</p><h2>On this day in music</h2></div>
+        <span id="sor-otd-date-badge" class="sor-date-badge">TODAY</span>
+      </div>
+      <div id="sor-otd-body" class="sor-otd-body" aria-live="polite"><div class="sor-wx-loading">Loading 50s–90s music history…</div></div>
+    </section>
+  </div>
+</section>
+
+<style>
+#sor-home-hub,#sor-home-hub *{box-sizing:border-box}
+#sor-home-hub.sor-hub{--sor-burgundy:#4f0335;--sor-burgundy-dark:#350124;--sor-gold:#d3a300;--sor-ink:#242027;--sor-muted:#716b73;--sor-border:#e9e5e8;--sor-soft:#f7f5f6;width:100%;max-width:1320px;margin:24px auto 54px;padding:0 24px;color:var(--sor-ink);font-family:inherit;-webkit-font-smoothing:antialiased}
+#sor-home-hub a{color:inherit}
+#sor-home-hub .sor-home-heading{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:0 0 22px;padding:0 0 15px;border-bottom:1px solid var(--sor-border)}
+#sor-home-hub .sor-eyebrow{margin:0 0 5px;color:var(--sor-burgundy);font-size:10px;font-weight:800;letter-spacing:1.15px;text-transform:uppercase}
+#sor-home-hub .sor-home-heading h1{margin:0!important;color:var(--sor-ink)!important;font-size:clamp(25px,3vw,34px)!important;line-height:1.12!important;font-weight:800!important;letter-spacing:-.6px!important}
+#sor-home-hub .sor-home-intro{margin:6px 0 0!important;color:var(--sor-muted)!important;font-size:14px!important}
+#sor-home-hub .sor-schedule-link{color:var(--sor-burgundy);font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap}
+#sor-home-hub .sor-schedule-link:hover{text-decoration:underline}
+#sor-home-hub .sor-home-columns{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(270px,.82fr);gap:26px;align-items:start}
+#sor-home-hub .sor-section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px}
+#sor-home-hub .sor-section-heading h2,#sor-home-hub .sor-feature-heading h2{margin:0!important;color:var(--sor-ink)!important;font-size:19px!important;line-height:1.2!important;font-weight:800!important}
+#sor-home-hub .sor-section-heading>span{color:var(--sor-muted);font-size:10px;font-weight:700}
+#sor-home-hub .sor-news-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px;padding-bottom:10px;border-bottom:1px solid var(--sor-border)}
+#sor-home-hub .sor-news-filters{display:flex;flex-wrap:wrap;gap:5px}
+#sor-home-hub button.sor-filter-btn,#sor-home-hub button.sor-refresh-btn{appearance:none!important;border:0!important;border-radius:2px!important;background:transparent!important;color:var(--sor-muted)!important;padding:6px 9px!important;min-height:0!important;height:auto!important;font-size:11px!important;line-height:1.2!important;font-weight:700!important;box-shadow:none!important;cursor:pointer!important}
+#sor-home-hub button.sor-filter-btn.is-active{background:var(--sor-burgundy)!important;color:#fff!important}
+#sor-home-hub button.sor-filter-btn:hover,#sor-home-hub button.sor-refresh-btn:hover{color:var(--sor-burgundy)!important}
+#sor-home-hub button.sor-refresh-btn{white-space:nowrap}
+#sor-home-hub .sor-news-list{min-width:0}
+#sor-home-hub .sor-news-featured{margin-bottom:14px}
+#sor-home-hub .sor-news-card{display:block;min-width:0;overflow:hidden;background:#fff;border:1px solid var(--sor-border);text-decoration:none!important;transition:border-color .18s ease,box-shadow .18s ease}
+#sor-home-hub .sor-news-card:hover{border-color:#cfc3cb;box-shadow:0 5px 18px rgba(30,15,25,.07)}
+#sor-home-hub .sor-news-image-wrap{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#eee9ec}
+#sor-home-hub .sor-news-image{display:block;width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+#sor-home-hub .sor-news-card:hover .sor-news-image{transform:scale(1.025)}
+#sor-home-hub .sor-news-image-fallback{display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#fff;background:var(--sor-burgundy);font-size:34px}
+#sor-home-hub .sor-news-image-wrap.is-empty .sor-news-image-fallback{display:flex}
+#sor-home-hub .sor-news-copy{padding:11px 12px 13px}
+#sor-home-hub .sor-news-meta{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:6px}
+#sor-home-hub .sor-era-pill{color:var(--sor-burgundy);font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+#sor-home-hub .sor-news-source,#sor-home-hub .sor-news-time{color:var(--sor-muted);font-size:10px}
+#sor-home-hub .sor-news-headline{margin:0!important;color:var(--sor-burgundy)!important;font-size:14px!important;line-height:1.35!important;font-weight:750!important}
+#sor-home-hub .sor-news-excerpt{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:7px 0 0!important;color:var(--sor-muted)!important;font-size:12px!important;line-height:1.45!important}
+#sor-home-hub .sor-news-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+#sor-home-hub .sor-news-grid .sor-news-image-wrap{aspect-ratio:16/9}
+#sor-home-hub .sor-news-grid .sor-news-copy{padding:9px 10px 11px}
+#sor-home-hub .sor-news-grid .sor-news-headline{font-size:12px!important;line-height:1.35!important}
+#sor-home-hub .sor-news-footer{display:flex;justify-content:space-between;gap:12px;margin-top:13px;padding-top:9px;border-top:1px solid var(--sor-border);color:var(--sor-muted);font-size:10px}
+#sor-home-hub .sor-news-loading,#sor-home-hub .sor-wx-loading{padding:24px 12px;color:var(--sor-muted);text-align:center;font-size:12px}
+#sor-home-hub .sor-sidebar{display:flex;flex-direction:column;gap:13px}
+#sor-home-hub .sor-sidebar-block{border:1px solid var(--sor-border);background:#fff}
+#sor-home-hub .sor-listen-block{padding:15px;border-top:4px solid var(--sor-burgundy)}
+#sor-home-hub .sor-sidebar-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}
+#sor-home-hub .sor-sidebar-heading h2{margin:0!important;color:var(--sor-ink)!important;font-size:15px!important;font-weight:800!important}
+#sor-home-hub .sor-live-indicator{display:inline-flex;align-items:center;gap:5px;color:var(--sor-burgundy);font-size:9px;font-weight:800;letter-spacing:.5px}
+#sor-home-hub .sor-live-indicator i{width:7px;height:7px;border-radius:50%;background:#c42d42}
+#sor-home-hub .sor-now-playing{padding:12px 0}
+#sor-home-hub .sor-now-label{display:block;margin-bottom:4px;color:var(--sor-burgundy);font-size:9px;font-weight:800;letter-spacing:.8px}
+#sor-home-hub .sor-now-playing-content{display:flex;align-items:center;gap:11px;margin-top:8px;min-width:0}
+#sor-home-hub .sor-now-art-wrap{position:relative;flex:0 0 62px;width:62px;height:62px;overflow:hidden;background:#eee9ec}
+#sor-home-hub .sor-now-playing-art,#sor-home-hub .sor-now-playing-art-fallback{display:block;width:100%;height:100%;object-fit:cover}
+#sor-home-hub .sor-now-playing-art[hidden]{display:none!important}
+#sor-home-hub #sor-now-playing-track{display:block;min-width:0;color:var(--sor-ink);font-size:12px;line-height:1.4;overflow-wrap:anywhere}
+#sor-home-hub .sor-sidebar-action-slot{display:flex;width:100%;margin-top:8px}
+#sor-home-hub .sor-sidebar-action-slot>div,#sor-home-hub .sor-sidebar-action-slot .elementor-widget-container,#sor-home-hub .sor-sidebar-action-slot .elementor-button-wrapper{width:100%!important;margin:0!important;padding:0!important}
+#sor-home-hub .sor-sidebar-button,#sor-home-hub .sor-sidebar-action-slot a,#sor-home-hub .sor-sidebar-action-slot button,#sor-home-hub .sor-sidebar-action-slot .elementor-button,#sor-home-hub .sor-sidebar-action-slot .proradio-btn{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:38px!important;padding:9px 12px!important;border:1px solid var(--sor-burgundy)!important;border-radius:2px!important;background:var(--sor-burgundy)!important;color:#fff!important;font-size:11px!important;font-weight:800!important;text-decoration:none!important;text-transform:none!important;box-shadow:none!important}
+#sor-home-hub .sor-sidebar-action-slot .sor-secondary-button,#sor-home-hub .sor-secondary-button{background:#fff!important;color:var(--sor-burgundy)!important}
+#sor-home-hub .sor-promo-card{display:flex;flex-direction:column;gap:5px;min-height:112px;padding:16px;color:#fff!important;text-decoration:none!important;background:linear-gradient(115deg,#650544,var(--sor-burgundy))}
+#sor-home-hub .sor-app-promo{background:linear-gradient(115deg,#650544,#3c0229)}
+#sor-home-hub .sor-promo-kicker{color:#e7c5d9;font-size:9px;font-weight:800;letter-spacing:1px}
+#sor-home-hub .sor-promo-card strong{color:#fff;font-size:18px;line-height:1.2}
+#sor-home-hub .sor-promo-card>span:last-child{color:rgba(255,255,255,.82);font-size:11px;line-height:1.4}
+#sor-home-hub .sor-promo-card b{float:right;font-size:18px}
+#sor-home-hub .sor-feature-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;margin-top:28px}
+#sor-home-hub .sor-feature-panel{min-width:0;padding:17px;border:1px solid var(--sor-border);background:#fff}
+#sor-home-hub .sor-feature-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:13px;border-bottom:1px solid var(--sor-border)}
+#sor-home-hub .sor-feature-heading h2{font-size:17px!important}
+#sor-home-hub .sor-date-badge{color:var(--sor-burgundy);font-size:10px;font-weight:800}
+#sor-home-hub button.sor-wx-gps-btn,#sor-home-hub button.sor-wx-search-btn{appearance:none!important;border:1px solid var(--sor-burgundy)!important;border-radius:2px!important;background:#fff!important;color:var(--sor-burgundy)!important;padding:7px 10px!important;min-height:0!important;height:auto!important;font-size:10px!important;font-weight:800!important;box-shadow:none!important;cursor:pointer!important}
+#sor-home-hub .sor-wx-body{display:flex;flex-direction:column;gap:12px;padding-top:13px}
+#sor-home-hub .sor-wx-search{display:flex;gap:7px}
+#sor-home-hub input.sor-wx-input{flex:1;min-width:0;height:35px!important;padding:0 10px!important;border:1px solid var(--sor-border)!important;border-radius:2px!important;background:#fff!important;color:var(--sor-ink)!important;font-size:12px!important;box-shadow:none!important}
+#sor-home-hub .sor-wx-current-card,#sor-home-hub .sor-wx-forecast-card{border:1px solid var(--sor-border)}
+#sor-home-hub .sor-wx-subhdr{display:flex;justify-content:space-between;gap:8px;padding:8px 10px;background:var(--sor-soft)}
+#sor-home-hub .sor-wx-subtitle{color:var(--sor-burgundy);font-size:9px;font-weight:800;letter-spacing:.7px}
+#sor-home-hub .sor-wx-location{color:var(--sor-muted);font-size:10px}
+#sor-home-hub .sor-wx-unit-tag{color:var(--sor-burgundy);font-size:10px}
+#sor-home-hub .sor-wx-current-content{padding:12px}
+#sor-home-hub .sor-wx-now-main{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#sor-home-hub .sor-wx-now-left{display:flex;align-items:center;gap:10px}
+#sor-home-hub .sor-wx-now-icon{font-size:28px}
+#sor-home-hub .sor-wx-now-temp{color:var(--sor-burgundy);font-size:25px;font-weight:800;line-height:1}
+#sor-home-hub .sor-wx-now-desc{margin-top:3px;color:var(--sor-ink);font-size:11px}
+#sor-home-hub .sor-wx-now-stats{color:var(--sor-muted);text-align:right;font-size:10px;line-height:1.5}
+#sor-home-hub .sor-wx-forecast-list{padding:5px 10px}
+#sor-home-hub .sor-wx-day-row{display:grid;grid-template-columns:70px 22px minmax(0,1fr) auto;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid var(--sor-border);font-size:10px}
+#sor-home-hub .sor-wx-day-row:last-child{border-bottom:0}
+#sor-home-hub .sor-wx-day-name{color:var(--sor-ink);font-weight:700}
+#sor-home-hub .sor-wx-day-icon{text-align:center}
+#sor-home-hub .sor-wx-day-cond{overflow:hidden;color:var(--sor-muted);white-space:nowrap;text-overflow:ellipsis}
+#sor-home-hub .sor-wx-day-temps{display:flex;gap:6px;white-space:nowrap;font-weight:700}
+#sor-home-hub .sor-wx-hi{color:var(--sor-burgundy)}
+#sor-home-hub .sor-wx-lo{color:var(--sor-muted)}
+#sor-home-hub .sor-otd-body{display:flex;flex-direction:column;gap:12px;padding-top:14px}
+#sor-home-hub .sor-otd-top-row{display:flex;justify-content:space-between;gap:8px}
+#sor-home-hub .sor-otd-year-badge{color:var(--sor-burgundy);font-size:12px;font-weight:800}
+#sor-home-hub .sor-otd-era-label{color:var(--sor-muted);font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase}
+#sor-home-hub .sor-otd-text{margin:0!important;color:var(--sor-ink)!important;font-size:13px!important;line-height:1.65!important}
+#sor-home-hub .sor-otd-text strong{color:var(--sor-burgundy)}
+#sor-home-hub .sor-otd-image{display:block;width:100%;max-height:210px;object-fit:cover}
+@media(max-width:900px){#sor-home-hub .sor-home-columns{grid-template-columns:minmax(0,1fr) 280px;gap:18px}#sor-home-hub.sor-hub{padding:0 18px}}
+@media(max-width:700px){#sor-home-hub .sor-home-columns,#sor-home-hub .sor-feature-row{grid-template-columns:1fr}#sor-home-hub .sor-sidebar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}#sor-home-hub .sor-listen-block{grid-column:1/-1}}
+@media(max-width:480px){#sor-home-hub.sor-hub{padding:0 12px;margin-top:16px}#sor-home-hub .sor-home-heading{align-items:flex-start;flex-direction:column;gap:8px}#sor-home-hub .sor-section-heading{align-items:flex-start;flex-direction:column;gap:4px}#sor-home-hub .sor-news-grid{gap:9px}#sor-home-hub .sor-news-grid .sor-news-copy{padding:8px}#sor-home-hub .sor-news-grid .sor-news-headline{font-size:11px!important}#sor-home-hub .sor-news-toolbar{align-items:flex-start}#sor-home-hub .sor-sidebar{grid-template-columns:1fr}#sor-home-hub .sor-listen-block{grid-column:auto}#sor-home-hub .sor-feature-panel{padding:13px}}
+@media(prefers-reduced-motion:reduce){#sor-home-hub *{scroll-behavior:auto!important;transition:none!important}}
+</style>
+<script>
+(function () {
+  "use strict";
+
+  /* =========================================================
+     0. MOVE SOURCE WIDGETS INTO HERO & HIDE LEFTOVER CONTAINERS
+     ========================================================= */
+
+  function moveAndHideSourceButtons() {
+    const hub = document.getElementById("sor-home-hub");
+    const liveMount = document.getElementById("sor-hero-live-mount");
+    const scheduleMount = document.getElementById("sor-hero-schedule-mount");
+    const liveFallback = document.getElementById("sor-hero-live-fallback");
+    const scheduleFallback = document.getElementById("sor-hero-schedule-fallback");
+
+    if (!hub) return;
+
+    const allSources = Array.from(
+      document.querySelectorAll(".so-live-btn-source, .so-schedule-btn-source")
+    );
+
+    let liveSource = null;
+    let scheduleSource = null;
+
+    allSources.forEach((widget) => {
+      const isScheduleClass = widget.classList.contains("so-schedule-btn-source");
+      const text = (widget.textContent || "").toLowerCase();
+      const link = widget.querySelector("a");
+      const href = link ? (link.getAttribute("href") || "").toLowerCase() : "";
+
+      if (isScheduleClass || href.includes("schedule") || text.includes("schedule")) {
+        if (!scheduleSource) scheduleSource = widget;
+        else widget.style.setProperty("display", "none", "important");
+      } else if (!liveSource) {
+        liveSource = widget;
+      } else {
+        widget.style.setProperty("display", "none", "important");
+      }
+    });
+
+    [
+      { mount: liveMount, widget: liveSource, fallback: liveFallback },
+      { mount: scheduleMount, widget: scheduleSource, fallback: scheduleFallback }
+    ].forEach(({ mount, widget, fallback }) => {
+      if (!mount) return;
+
+      if (!widget) {
+        if (fallback) fallback.style.removeProperty("display");
+        return;
+      }
+
+      const oldParent = widget.closest(".e-con, .elementor-section, .elementor-widget");
+
+      if (!mount.contains(widget)) mount.appendChild(widget);
+
+      widget.style.setProperty("display", "block", "important");
+
+      if (fallback) fallback.remove();
+
+      if (oldParent && !hub.contains(oldParent)) {
+        const hasOtherVisibleContent = Array.from(
+          oldParent.querySelectorAll("img, a, button, nav, ul, h1, h2, h3, h4, p")
+        ).some((el) => {
+          if (hub.contains(el) || widget.contains(el)) return false;
+
+          const style = window.getComputedStyle(el);
+
+          return style.display !== "none" && style.visibility !== "hidden";
+        });
+
+        if (!hasOtherVisibleContent) {
+          oldParent.style.setProperty("display", "none", "important");
+        }
+      }
+    });
+  }
+
+  moveAndHideSourceButtons();
+  document.addEventListener("DOMContentLoaded", moveAndHideSourceButtons);
+  window.addEventListener("load", moveAndHideSourceButtons);
+
+  /* =========================================================
+     1. MUSIC NEWS — 1950s TO 1990s
+     ========================================================= */
+
+  const NEWS_CACHE_KEY = "sor_50s_90s_news_v2";
+  const NEWS_CACHE_TTL = 30 * 60 * 1000;
+
+  const RSS_SOURCES = [
+    {
+      name: "Ultimate Classic Rock",
+      url: "https://ultimateclassicrock.com/feed/",
+      trustedHeritage: true
+    },
+    {
+      name: "Classic Rock",
+      url: "https://www.loudersound.com/feeds.xml",
+      trustedHeritage: true
+    },
+    {
+      name: "Music Business Worldwide",
+      url: "https://www.musicbusinessworldwide.com/feed/",
+      trustedHeritage: false
+    },
+    {
+      name: "NME",
+      url: "https://www.nme.com/news/music/feed",
+      trustedHeritage: false
+    }
+  ];
+
+ 
+const INAPPROPRIATE_NEWS_TERMS = [
+  // Modern music trends and genres
+  "hip-hop beef",
+  "rap beef",
+  "drill music",
+  "trap music",
+  "new music friday",
+  "streaming playlist",
+  "tiktok trend",
+  "viral challenge",
+  "k-pop",
+  "kpop",
+  "dance music",
+  "edm",
+  "dubstep",
+  "dj set",
+
+  // Specialist music coverage
+  "progressive rock",
+  "progressive metal",
+  "prog rock",
+  "prog-metal",
+  "prog metal",
+  "post-rock",
+  "post-metal",
+  "death metal",
+  "black metal",
+  "metalcore",
+  "hardcore punk",
+  "underground music",
+  "experimental music",
+  "tracks of the week",
+  "new music roundup",
+  "new releases roundup",
+
+  // Music promotion and shopping
+  "new single out now",
+  "new album out now",
+  "pre-save",
+  "pre-save now",
+  "black friday deal",
+  "black friday deals",
+  "black friday sale",
+  "price cut",
+  "price cuts",
+  "up to 40% off",
+  "up to 50% off",
+  "massive discount",
+  "headphone deals",
+  "speaker deals",
+  "buying guide",
+  "best headphones",
+  "best speakers",
+  "product review",
+  "product reviews",
+  "shopping guide",
+
+  // Entertainment we don't cover
+  "reality tv",
+  "love island",
+  "celebrity gossip",
+  "influencer",
+
+  // Events and ticket promotion
+  "festival lineup",
+  "tour dates",
+  "concert tickets"
+];
+
+
   const ERA_RULES = [
     {
       era: "50s-60s",
@@ -57,44 +852,59 @@
       ]
     }
   ];
+
   const GENERAL_CLASSIC_TERMS = [
     "classic rock", "oldies", "reissue", "box set",
     "remaster", "remastered", "anniversary edition",
     "vinyl", "catalog", "catalogue", "hall of fame",
     "archival", "unreleased", "gold disc", "platinum"
   ];
+
   const newsListEl = document.getElementById("sor-news-list");
   const newsUpdatedEl = document.getElementById("sor-news-updated");
   const filterBtns = Array.from(
     document.querySelectorAll("#sor-home-hub .sor-filter-btn")
   );
   const refreshBtn = document.getElementById("sor-news-refresh");
+
   let allFilteredArticles = [];
   let activeEra = "all";
+
   function stripHtml(html) {
     const tmp = document.createElement("div");
     tmp.innerHTML = html || "";
+
     return (tmp.textContent || tmp.innerText || "")
       .replace(/\s+/g, " ")
       .trim();
   }
+
   function timeAgo(dateStr) {
     const ts = Date.parse(dateStr);
+
     if (isNaN(ts)) return "";
+
     const diffMins = Math.max(
       1,
       Math.floor((Date.now() - ts) / 60000)
     );
+
     if (diffMins < 60) return diffMins + "m ago";
+
     const diffHrs = Math.floor(diffMins / 60);
+
     if (diffHrs < 24) return diffHrs + "h ago";
+
     return Math.floor(diffHrs / 24) + "d ago";
   }
+
   function classifyArticle(title, description, trustedHeritage) {
     const haystack = (title + " " + description).toLowerCase();
+
     if (INAPPROPRIATE_NEWS_TERMS.some((badTerm) => haystack.includes(badTerm))) {
       return { matched: false, era: "all", label: "" };
     }
+
     for (const rule of ERA_RULES) {
       if (rule.terms.some((term) => haystack.includes(term))) {
         return {
@@ -104,6 +914,7 @@
         };
       }
     }
+
     if (
       trustedHeritage ||
       GENERAL_CLASSIC_TERMS.some((term) => haystack.includes(term))
@@ -114,24 +925,30 @@
         label: "50s–90s"
       };
     }
+
     return { matched: false, era: "all", label: "" };
   }
+
   function renderNews() {
     if (!newsListEl) return;
+
     const items = activeEra === "all"
       ? allFilteredArticles
       : allFilteredArticles.filter((item) => item.era === activeEra);
+
     if (!items.length) {
       newsListEl.innerHTML =
         '<div class="sor-news-loading">No headlines matched this decade right now. Try another filter or refresh.</div>';
       return;
     }
+
     const articleMarkup = (item, featured) => {
       const image = item.thumbnail
         ? `<img class="sor-news-image" src="${item.thumbnail}" alt="" loading="lazy" onerror="this.closest('.sor-news-image-wrap').classList.add('is-empty');this.remove()">`
         : "";
+
       return `
-        <a class="sor-news-card featured?"is-featured":"""href="{item.link}" target="_blank" rel="noopener noreferrer">
+        <a class="sor-news-card ${featured ? "is-featured" : ""}" href="${item.link}" target="_blank" rel="noopener noreferrer">
           <div class="sor-news-image-wrap ${item.thumbnail ? "" : "is-empty"}">
             ${image}
             <span class="sor-news-image-fallback" aria-hidden="true">♪</span>
@@ -147,18 +964,23 @@
           </div>
         </a>`;
     };
+
     newsListEl.innerHTML = `
       <div class="sor-news-featured">${articleMarkup(items[0], true)}</div>
       <div class="sor-news-grid">${items.slice(1, 5).map((item) => articleMarkup(item, false)).join("")}</div>
     `;
   }
+
   async function fetchLiveNews(forceRefresh) {
     if (!newsListEl) return;
+
     if (!forceRefresh) {
       try {
         const cachedRaw = localStorage.getItem(NEWS_CACHE_KEY);
+
         if (cachedRaw) {
           const cached = JSON.parse(cachedRaw);
+
           if (
             cached &&
             Date.now() - cached.timestamp < NEWS_CACHE_TTL &&
@@ -169,44 +991,60 @@
               const text = (
                 (article.title || "") + " " + (article.excerpt || "")
               ).toLowerCase();
+
               return !INAPPROPRIATE_NEWS_TERMS.some((bad) =>
                 text.includes(bad)
               );
             });
+
             renderNews();
+
             if (newsUpdatedEl) {
               newsUpdatedEl.textContent =
                 "Updated " + timeAgo(new Date(cached.timestamp).toISOString());
             }
+
             return;
           }
         }
       } catch (error) {}
     }
+
     newsListEl.innerHTML =
       '<div class="sor-news-loading">Fetching latest 1950s–1990s music industry headlines…</div>';
+
     const results = await Promise.allSettled(
       RSS_SOURCES.map(async (src) => {
         const endpoint =
           "https://api.rss2json.com/v1/api.json?rss_url=" +
           encodeURIComponent(src.url);
+
         const res = await fetch(endpoint);
+
         if (!res.ok) throw new Error("Feed error");
+
         const data = await res.json();
+
         if (data.status !== "ok" || !Array.isArray(data.items)) return [];
+
         return data.items.map((entry) => {
           const cleanTitle = stripHtml(entry.title);
           const cleanExcerpt = stripHtml(entry.description || entry.content);
+
           const check = classifyArticle(
             cleanTitle,
             cleanExcerpt,
             src.trustedHeritage
           );
+
           if (!check.matched) return null;
+
           let thumb = entry.thumbnail || "";
+
           if (!thumb && entry.enclosure && entry.enclosure.link) {
             thumb = entry.enclosure.link;
           }
+
           return {
             title: cleanTitle,
             excerpt: cleanExcerpt,
@@ -220,12 +1058,15 @@
         }).filter(Boolean);
       })
     );
+
     const merged = [];
     const seenTitles = new Set();
+
     results.forEach((result) => {
       if (result.status === "fulfilled" && Array.isArray(result.value)) {
         result.value.forEach((article) => {
           const key = article.title.toLowerCase();
+
           if (!seenTitles.has(key)) {
             seenTitles.add(key);
             merged.push(article);
@@ -233,11 +1074,14 @@
         });
       }
     });
+
     merged.sort(
       (a, b) => (Date.parse(b.pubDate) || 0) - (Date.parse(a.pubDate) || 0)
     );
+
     if (merged.length) {
       allFilteredArticles = merged;
+
       try {
         localStorage.setItem(
           NEWS_CACHE_KEY,
@@ -247,64 +1091,87 @@
           })
         );
       } catch (error) {}
+
       renderNews();
+
       if (newsUpdatedEl) newsUpdatedEl.textContent = "Updated just now";
     } else {
       newsListEl.innerHTML =
         '<div class="sor-news-loading">Unable to load live feeds right now. Click Refresh to try again.</div>';
     }
   }
+
   filterBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       filterBtns.forEach((button) => button.classList.remove("is-active"));
+
       btn.classList.add("is-active");
+
       activeEra = btn.getAttribute("data-era") || "all";
+
       renderNews();
     });
   });
+
   if (refreshBtn) {
     refreshBtn.addEventListener("click", () => fetchLiveNews(true));
   }
+
   fetchLiveNews(false);
+
+
 /* =========================================================
    1A. LIVE NOW PLAYING — MIRROR PRO.RADIO FOOTER ARTWORK
    ========================================================= */
+
 const nowPlayingEl = document.getElementById("sor-now-playing-track");
 const nowPlayingArtEl = document.getElementById("sor-now-playing-art");
 const nowPlayingArtFallbackEl = document.getElementById(
   "sor-now-playing-art-fallback"
 );
+
 let currentArtworkUrl = "";
+
 function showFallbackArtwork() {
   if (nowPlayingArtEl) {
     nowPlayingArtEl.hidden = true;
   }
+
   if (nowPlayingArtFallbackEl) {
     nowPlayingArtFallbackEl.style.display = "block";
   }
 }
+
 function showTrackArtwork(url) {
   if (!nowPlayingArtEl || !url) return;
+
   nowPlayingArtEl.hidden = false;
+
   if (nowPlayingArtFallbackEl) {
     nowPlayingArtFallbackEl.style.display = "none";
   }
 }
+
 function syncProRadioArtwork() {
   if (!nowPlayingArtEl) return;
+
   const playerArtwork = document.querySelector(
     "#qtmplayer .qtmplayer__cover img"
   );
+
   if (!playerArtwork) return;
+
   const artworkUrl =
     playerArtwork.currentSrc ||
     playerArtwork.getAttribute("src") ||
     playerArtwork.getAttribute("data-src") ||
     "";
+
   if (!artworkUrl) {
     showFallbackArtwork();
     return;
   }
+
   if (artworkUrl === currentArtworkUrl) {
     if (
       nowPlayingArtEl.complete &&
@@ -314,18 +1181,23 @@ function syncProRadioArtwork() {
     }
     return;
   }
+
   currentArtworkUrl = artworkUrl;
+
   nowPlayingArtEl.onload = () => {
     if (nowPlayingArtEl.src === artworkUrl) {
       showTrackArtwork(artworkUrl);
     }
   };
+
   nowPlayingArtEl.onerror = () => {
     if (currentArtworkUrl === artworkUrl) {
       showFallbackArtwork();
     }
   };
+
   nowPlayingArtEl.src = artworkUrl;
+
   if (
     nowPlayingArtEl.complete &&
     nowPlayingArtEl.naturalWidth > 0
@@ -333,72 +1205,98 @@ function syncProRadioArtwork() {
     showTrackArtwork(artworkUrl);
   }
 }
+
 /* Observe Pro.Radio player creation and artwork changes */
+
 let proRadioPlayerObserver = null;
 let proRadioArtworkObserver = null;
+
 function attachProRadioArtworkObserver() {
   const player = document.getElementById("qtmplayer");
+
   if (!player || proRadioArtworkObserver) return;
+
   proRadioArtworkObserver = new MutationObserver(() => {
     syncProRadioArtwork();
   });
+
   proRadioArtworkObserver.observe(player, {
     subtree: true,
     childList: true,
     attributes: true,
     attributeFilter: ["src", "data-src"]
   });
+
   syncProRadioArtwork();
 }
+
 function findProRadioPlayer() {
   if (document.getElementById("qtmplayer")) {
     attachProRadioArtworkObserver();
+
     if (proRadioPlayerObserver) {
       proRadioPlayerObserver.disconnect();
       proRadioPlayerObserver = null;
     }
   }
 }
+
 findProRadioPlayer();
+
 if (!document.getElementById("qtmplayer")) {
   proRadioPlayerObserver = new MutationObserver(findProRadioPlayer);
+
   proRadioPlayerObserver.observe(document.documentElement, {
     childList: true,
     subtree: true
   });
 }
+
 /* Retry briefly while Pro.Radio initialises */
+
 syncProRadioArtwork();
 window.setInterval(syncProRadioArtwork, 2000);
+
 /* Live track information */
+
 async function refreshNowPlaying() {
   if (!nowPlayingEl) return;
+
   try {
     const response = await fetch(
       "https://simplyoldies.com/wp-json/sor/v1/now-playing",
       { cache: "no-store" }
     );
+
     if (!response.ok) {
       throw new Error("Now playing unavailable");
     }
+
     const track = (await response.text()).trim();
+
     nowPlayingEl.textContent =
       track || "Music playing on Simply Oldies Radio";
+
   } catch (error) {
     nowPlayingEl.textContent = "Tune in to hear the music";
   }
 }
+
 refreshNowPlaying();
 window.setInterval(refreshNowPlaying, 30000);
+
+
   /* =========================================================
      2. YOUR LOCAL WEATHER
      ========================================================= */
+
   const wxLocationEl = document.getElementById("sor-wx-location");
   const wxCurrentEl = document.getElementById("sor-wx-current");
   const wxForecastEl = document.getElementById("sor-wx-forecast");
   const wxForm = document.getElementById("sor-wx-form");
   const wxInput = document.getElementById("sor-wx-input");
   const wxGpsBtn = document.getElementById("sor-wx-gps-btn");
+
   const WMO_MAP = {
     0: { icon: "☀️", text: "Clear Sky" },
     1: { icon: "🌤️", text: "Mainly Clear" },
@@ -422,15 +1320,18 @@ window.setInterval(refreshNowPlaying, 30000);
     96: { icon: "⛈️", text: "Thunder & Hail" },
     99: { icon: "⛈️", text: "Severe Storm" }
   };
+
   function getWmo(code) {
     return WMO_MAP[Number(code)] || {
       icon: "⛅",
       text: "Mixed Cloud"
     };
   }
+
   function formatDayLabel(dateStr, idx) {
     if (idx === 0) return "Today";
     if (idx === 1) return "Tomorrow";
+
     return new Date(dateStr + "T12:00:00").toLocaleDateString(
       "en-GB",
       {
@@ -439,20 +1340,25 @@ window.setInterval(refreshNowPlaying, 30000);
       }
     );
   }
+
   function setIdleWeatherPrompt(locationLabel, message) {
     if (wxLocationEl) {
       wxLocationEl.textContent = locationLabel || "Not set";
     }
+
     const text = message || "Click Locate Me to see your local weather";
+
     if (wxCurrentEl) {
       wxCurrentEl.innerHTML =
         `<div class="sor-wx-loading">${text}</div>`;
     }
+
     if (wxForecastEl) {
       wxForecastEl.innerHTML =
         `<div class="sor-wx-loading">${text}</div>`;
     }
   }
+
   function renderWeatherUI(
     label,
     tempC,
@@ -463,7 +1369,9 @@ window.setInterval(refreshNowPlaying, 30000);
     dailyDays
   ) {
     if (wxLocationEl) wxLocationEl.textContent = label;
+
     const curInfo = getWmo(weatherCode);
+
     if (wxCurrentEl) {
       wxCurrentEl.innerHTML = `
         <div class="sor-wx-now-main">
@@ -481,10 +1389,12 @@ window.setInterval(refreshNowPlaying, 30000);
           </div>
         </div>`;
     }
+
     if (wxForecastEl) {
       if (Array.isArray(dailyDays) && dailyDays.length) {
         wxForecastEl.innerHTML = dailyDays.slice(0, 7).map((day, i) => {
           const info = getWmo(day.code);
+
           return `
             <div class="sor-wx-day-row">
               <span class="sor-wx-day-name">${formatDayLabel(day.date, i)}</span>
@@ -502,13 +1412,17 @@ window.setInterval(refreshNowPlaying, 30000);
       }
     }
   }
+
   async function loadWeatherForCoords(lat, lon, label) {
     const numLat = Number(lat);
     const numLon = Number(lon);
+
     if (!Number.isFinite(numLat) || !Number.isFinite(numLon)) {
       return false;
     }
+
     if (wxLocationEl) wxLocationEl.textContent = label;
+
     try {
       /* Corrected Open-Meteo URL construction */
       const url =
@@ -518,29 +1432,40 @@ window.setInterval(refreshNowPlaying, 30000);
         `&hourly=relative_humidity_2m,apparent_temperature` +
         `&daily=weather_code,temperature_2m_max,temperature_2m_min` +
         `&wind_speed_unit=mph&timezone=auto`;
+
       const res = await fetch(url);
+
       if (!res.ok) {
         throw new Error("Open-Meteo HTTP " + res.status);
       }
+
       const data = await res.json();
+
       if (!data || !data.current_weather) {
         throw new Error("Missing current_weather");
       }
+
       const cw = data.current_weather;
+
       let humidity = 72;
       let feelsLike = cw.temperature;
+
       if (data.hourly && Array.isArray(data.hourly.time)) {
         const hourPrefix = String(cw.time || "").slice(0, 13);
+
         const idx = data.hourly.time.findIndex((time) =>
           time.startsWith(hourPrefix)
         );
+
         const useIdx = idx >= 0 ? idx : 0;
+
         if (
           Array.isArray(data.hourly.relative_humidity_2m) &&
           data.hourly.relative_humidity_2m[useIdx] != null
         ) {
           humidity = data.hourly.relative_humidity_2m[useIdx];
         }
+
         if (
           Array.isArray(data.hourly.apparent_temperature) &&
           data.hourly.apparent_temperature[useIdx] != null
@@ -548,7 +1473,9 @@ window.setInterval(refreshNowPlaying, 30000);
           feelsLike = data.hourly.apparent_temperature[useIdx];
         }
       }
+
       const dailyDays = [];
+
       if (data.daily && Array.isArray(data.daily.time)) {
         data.daily.time.forEach((date, i) => {
           dailyDays.push({
@@ -565,6 +1492,7 @@ window.setInterval(refreshNowPlaying, 30000);
           });
         });
       }
+
       renderWeatherUI(
         label,
         cw.temperature,
@@ -574,25 +1502,33 @@ window.setInterval(refreshNowPlaying, 30000);
         cw.weathercode,
         dailyDays
       );
+
       return true;
+
     } catch (err) {
       /* Secondary weather provider fallback */
       try {
         const wttrUrl =
-          `https://wttr.in/numLat.toFixed(3),{numLon.toFixed(3)}?format=j1`;
+          `https://wttr.in/${numLat.toFixed(3)},${numLon.toFixed(3)}?format=j1`;
+
         const wttrRes = await fetch(wttrUrl);
+
         if (!wttrRes.ok) {
           throw new Error("wttr fallback failed");
         }
+
         const wData = await wttrRes.json();
         const cur = wData.current_condition && wData.current_condition[0];
+
         if (!cur) throw new Error("No wttr current");
+
         const dailyDays = (wData.weather || []).map((day) => ({
           date: day.date,
           code: 2,
           hi: Number(day.maxtempC),
           lo: Number(day.mintempC)
         }));
+
         renderWeatherUI(
           label,
           Number(cur.temp_C),
@@ -602,39 +1538,51 @@ window.setInterval(refreshNowPlaying, 30000);
           2,
           dailyDays
         );
+
         return true;
+
       } catch (fallbackErr) {
         setIdleWeatherPrompt(
           label,
           "Click Locate Me to see your local weather"
         );
+
         return false;
       }
     }
   }
+
   if (wxForm && wxInput) {
     wxForm.addEventListener("submit", async (event) => {
       event.preventDefault();
+
       const query = wxInput.value.trim();
+
       if (!query) return;
+
       if (wxLocationEl) wxLocationEl.textContent = "Searching…";
+
       try {
         const geoRes = await fetch(
           "https://geocoding-api.open-meteo.com/v1/search?name=" +
           encodeURIComponent(query) +
           "&count=1&language=en&format=json"
         );
+
         const geoData = await geoRes.json();
+
         if (
           geoData &&
           Array.isArray(geoData.results) &&
           geoData.results.length
         ) {
           const hit = geoData.results[0];
+
           const label = [
             hit.name,
             hit.country_code
           ].filter(Boolean).join(", ");
+
           await loadWeatherForCoords(
             hit.latitude,
             hit.longitude,
@@ -646,6 +1594,7 @@ window.setInterval(refreshNowPlaying, 30000);
             "Click Locate Me to see your local weather"
           );
         }
+
       } catch (err) {
         setIdleWeatherPrompt(
           "Not set",
@@ -654,6 +1603,7 @@ window.setInterval(refreshNowPlaying, 30000);
       }
     });
   }
+
   if (wxGpsBtn) {
     wxGpsBtn.addEventListener("click", () => {
       if (!("geolocation" in navigator)) {
@@ -663,32 +1613,41 @@ window.setInterval(refreshNowPlaying, 30000);
         );
         return;
       }
+
       if (wxLocationEl) wxLocationEl.textContent = "Locating…";
+
       if (wxCurrentEl) {
         wxCurrentEl.innerHTML =
           '<div class="sor-wx-loading">Checking local forecast…</div>';
       }
+
       if (wxForecastEl) {
         wxForecastEl.innerHTML =
           '<div class="sor-wx-loading">Loading upcoming forecast…</div>';
       }
+
       navigator.geolocation.getCurrentPosition(
         async (pos) => {
           const lat = pos.coords.latitude;
           const lon = pos.coords.longitude;
+
           let place = "Your Location";
+
           try {
             const rev = await fetch(
-              `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=lat&longitude={lon}&localityLanguage=en`
+              `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`
             );
+
             if (rev.ok) {
               const rData = await rev.json();
+
               place = [
                 rData.city || rData.locality,
                 rData.countryCode
               ].filter(Boolean).join(", ") || place;
             }
           } catch (error) {}
+
           loadWeatherForCoords(lat, lon, place);
         },
         () => {
@@ -701,15 +1660,19 @@ window.setInterval(refreshNowPlaying, 30000);
       );
     });
   }
+
   setIdleWeatherPrompt(
     "Not set",
     "Click Locate Me to see your local weather"
   );
+
   /* =========================================================
      3. ON THIS DAY IN MUSIC HISTORY — 1950s TO 1990s
      ========================================================= */
+
   const otdDateBadge = document.getElementById("sor-otd-date-badge");
   const otdBodyEl = document.getElementById("sor-otd-body");
+
   const MUSIC_CONTEXT_WORDS = [
     "album", "single", "song", "band", "singer", "musician",
     "guitarist", "drummer", "bassist", "pianist", "songwriter",
@@ -721,6 +1684,7 @@ window.setInterval(refreshNowPlaying, 30000);
     "rock", "soul", "motown", "disco", "punk", "grunge",
     "britpop", "hip hop", "jazz", "blues", "country"
   ];
+
   const ICONIC_50S_90S_ARTISTS = [
     "beatles", "john lennon", "paul mccartney",
     "george harrison", "ringo starr", "rolling stones",
@@ -737,6 +1701,7 @@ window.setInterval(refreshNowPlaying, 30000);
     "frank sinatra", "buddy holly", "chuck berry",
     "johnny cash", "bo diddley", "paul simon"
   ];
+
   const NON_MUSIC_BLOCKLIST = [
     "microsoft", "windows 1.0", "computer", "software",
     "operating system", "nasa", "spacecraft", "satellite",
@@ -749,6 +1714,7 @@ window.setInterval(refreshNowPlaying, 30000);
     "television actor", "film actor", "child actor",
     "hannah montana", "disney channel"
   ];
+
   const NOV_20_MUSIC_EVENTS = [
     {
       year: 1955,
@@ -781,40 +1747,56 @@ window.setInterval(refreshNowPlaying, 30000);
       page: "The Rolling Stones"
     }
   ];
+
   function getDecadeLabel(year) {
     const y = Number(year);
+
     if (y >= 1950 && y <= 1959) return "1950s Milestone";
     if (y >= 1960 && y <= 1969) return "1960s Milestone";
     if (y >= 1970 && y <= 1979) return "1970s Milestone";
     if (y >= 1980 && y <= 1989) return "1980s Milestone";
     if (y >= 1990 && y <= 1999) return "1990s Milestone";
+
     return "50s–90s Milestone";
   }
+
   function scoreMusicEntry(ev, isBirthList) {
     const y = Number(ev.year);
+
     if (y < 1950 || y > 1999) return -1;
+
     const lower = String(ev.text || "").toLowerCase();
+
     if (NON_MUSIC_BLOCKLIST.some((term) => lower.includes(term))) {
       return -1;
     }
+
     const hasMusicWord = MUSIC_CONTEXT_WORDS.some((word) =>
       lower.includes(word)
     );
+
     const hasIconicArtist = ICONIC_50S_90S_ARTISTS.some((artist) =>
       lower.includes(artist)
     );
+
     if (!hasMusicWord && !hasIconicArtist) return -1;
+
     if (isBirthList) return hasIconicArtist ? 2 : -1;
+
     if (hasMusicWord && hasIconicArtist) return 5;
     if (hasMusicWord) return 4;
+
     return 3;
   }
+
   function renderOnThisDay(year, text, imageUrl) {
     if (!otdBodyEl) return;
+
     const safeImage =
       imageUrl && /^https?:\/\//i.test(imageUrl)
         ? `<img class="sor-otd-image" src="${imageUrl}" alt="Photograph relating to this day in music history" loading="lazy" onerror="this.remove()">`
         : "";
+
     otdBodyEl.innerHTML = `
       <div class="sor-otd-top-row">
         <span class="sor-otd-year-badge">📅 ${year}</span>
@@ -824,42 +1806,56 @@ window.setInterval(refreshNowPlaying, 30000);
       ${safeImage}
     `;
   }
+
   /*
    * Retrieve a thumbnail from Wikipedia when the On This Day
    * event itself does not include an image.
    */
+
   async function getWikipediaImage(pageTitle) {
     if (!pageTitle) return "";
+
     try {
       const endpoint =
         "https://en.wikipedia.org/api/rest_v1/page/summary/" +
         encodeURIComponent(pageTitle.replace(/ /g, "_"));
+
       const response = await fetch(endpoint);
+
       if (!response.ok) return "";
+
       const data = await response.json();
+
       if (data.thumbnail && data.thumbnail.source) {
         return data.thumbnail.source;
       }
+
       if (data.originalimage && data.originalimage.source) {
         return data.originalimage.source;
       }
+
       return "";
     } catch (error) {
       return "";
     }
   }
+
   async function loadOnThisDayInMusic() {
     const formatter = new Intl.DateTimeFormat("en-GB", {
       timeZone: "Europe/London",
       month: "2-digit",
       day: "2-digit"
     });
+
     const parts = {};
+
     formatter.formatToParts(new Date()).forEach((part) => {
       parts[part.type] = part.value;
     });
+
     const mm = parts.month || "11";
     const dd = parts.day || "20";
+
     const displayLabel = new Date(
       Date.UTC(2026, Number(mm) - 1, Number(dd), 12)
     ).toLocaleDateString("en-GB", {
@@ -867,15 +1863,20 @@ window.setInterval(refreshNowPlaying, 30000);
       day: "numeric",
       month: "short"
     }).toUpperCase();
+
     if (otdDateBadge) {
       otdDateBadge.textContent = displayLabel;
     }
+
     /* New cache version prevents old image-less entries persisting */
     const cacheKey = `sor_otd_music_v6_${mm}_${dd}`;
+
     try {
       const cached = localStorage.getItem(cacheKey);
+
       if (cached) {
         const parsed = JSON.parse(cached);
+
         if (
           parsed &&
           parsed.year &&
@@ -887,14 +1888,18 @@ window.setInterval(refreshNowPlaying, 30000);
         }
       }
     } catch (error) {}
+
     try {
       const res = await fetch(
-        `https://en.wikipedia.org/api/rest_v1/feed/onthisday/all/mm/{dd}`
+        `https://en.wikipedia.org/api/rest_v1/feed/onthisday/all/${mm}/${dd}`
       );
+
       if (!res.ok) {
         throw new Error("Wikipedia OTD HTTP " + res.status);
       }
+
       const data = await res.json();
+
       const eventPool = [
         ...(Array.isArray(data.selected) ? data.selected : []),
         ...(Array.isArray(data.events) ? data.events : [])
@@ -902,61 +1907,79 @@ window.setInterval(refreshNowPlaying, 30000);
         ev: event,
         score: scoreMusicEntry(event, false)
       })).filter((item) => item.score > 0);
+
       const birthPool = (
         Array.isArray(data.births) ? data.births : []
       ).map((event) => ({
         ev: event,
         score: scoreMusicEntry(event, true)
       })).filter((item) => item.score > 0);
+
       const ranked = (eventPool.length ? eventPool : birthPool)
         .sort((a, b) => b.score - a.score);
+
       if (ranked.length) {
         /*
          * Prefer events with an available image rather than choosing
          * an image-less event simply because it scored highly.
          */
+
         const imageCandidates = ranked.filter((item) => {
           const pages = Array.isArray(item.ev.pages)
             ? item.ev.pages
             : [];
+
           return pages.some((page) =>
             page.thumbnail && page.thumbnail.source
           );
         });
+
         const candidates = imageCandidates.length
           ? imageCandidates
           : ranked;
+
         const topScore = candidates[0].score;
+
         const topTier = candidates.filter(
           (item) => item.score === topScore
         );
+
         const chosen =
           topTier[Number(dd) % topTier.length].ev;
+
         const cleanText = String(chosen.text || "").trim();
+
         const pageWithImage = Array.isArray(chosen.pages)
           ? chosen.pages.find((page) =>
               page.thumbnail && page.thumbnail.source
             )
           : null;
+
         let imageUrl = pageWithImage
           ? pageWithImage.thumbnail.source
           : "";
+
         /*
          * If the chosen event has no thumbnail, try its Wikipedia page.
          */
+
         if (!imageUrl && Array.isArray(chosen.pages) && chosen.pages.length) {
           const pageTitle = chosen.pages[0].title;
+
           imageUrl = await getWikipediaImage(pageTitle);
         }
+
         const result = {
           year: chosen.year,
           text: cleanText,
           image: imageUrl
         };
+
         /*
          * Only cache results when an image was found.
          * This allows another attempt if Wikipedia has no image today.
          */
+
         if (imageUrl) {
           try {
             localStorage.setItem(
@@ -965,45 +1988,58 @@ window.setInterval(refreshNowPlaying, 30000);
             );
           } catch (error) {}
         }
+
         renderOnThisDay(
           chosen.year,
           cleanText,
           imageUrl
         );
+
         return;
       }
+
     } catch (error) {}
+
     /*
      * Special date fallback for 20 November.
      */
+
     if (mm === "11" && dd === "20") {
       const todayEvent =
         NOV_20_MUSIC_EVENTS[
           new Date().getDate() % NOV_20_MUSIC_EVENTS.length
         ];
+
       let imageUrl = await getWikipediaImage(todayEvent.page);
+
       renderOnThisDay(
         todayEvent.year,
         todayEvent.text,
         imageUrl
       );
+
       return;
     }
+
     /*
      * General fallback if Wikipedia has no suitable event.
      */
+
     const fallback =
       NOV_20_MUSIC_EVENTS[
         (Number(dd) + Number(mm)) % NOV_20_MUSIC_EVENTS.length
       ];
+
     const fallbackImage = await getWikipediaImage(fallback.page);
+
     renderOnThisDay(
       fallback.year,
       fallback.text,
       fallbackImage
     );
   }
+
   loadOnThisDayInMusic();
+
 })();
 </script>
-
