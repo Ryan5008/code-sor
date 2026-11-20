@@ -1,0 +1,1009 @@
+  const ERA_RULES = [
+    {
+      era: "50s-60s",
+      label: "50s–60s",
+      terms: [
+        "1950s", "1960s", "1950", "1960",
+        "rock and roll", "rock 'n' roll", "rock n roll",
+        "doo-wop", "motown", "the beatles",
+        "elvis presley", "buddy holly", "chuck berry",
+        "the supremes", "marvin gaye", "the beach boys",
+        "the rolling stones", "bob dylan", "aretha franklin",
+        "sam cooke", "the kinks", "the animals",
+        "the byrds", "the who", "the monkees",
+        "temptations", "four tops", "little richard",
+        "ray charles", "roy orbison", "the ronettes"
+      ]
+    },
+    {
+      era: "70s",
+      label: "70s",
+      terms: [
+        "1970s", "1970", "1971", "1972", "1973", "1974",
+        "1975", "1976", "1977", "1978", "1979",
+        "fleetwood mac", "david bowie", "queen",
+        "elton john", "bee gees", "abba", "pink floyd",
+        "led zeppelin", "the eagles", "rod stewart",
+        "blondie", "status quo", "the carpenters",
+        "stevie wonder", "paul simon", "meat loaf",
+        "glam rock", "disco", "punk rock"
+      ]
+    },
+    {
+      era: "80s",
+      label: "80s",
+      terms: [
+        "1980s", "1980", "1981", "1982", "1983", "1984",
+        "1985", "1986", "1987", "1988", "1989",
+        "madonna", "michael jackson", "prince",
+        "wham", "george michael", "duran duran",
+        "spandau ballet", "tears for fears", "phil collins",
+        "genesis", "dire straits", "bon jovi",
+        "bryan adams", "simple minds", "the police",
+        "eurythmics", "a-ha", "80s pop"
+      ]
+    },
+    {
+      era: "90s",
+      label: "90s",
+      terms: [
+        "1990s", "1990", "1991", "1992", "1993", "1994",
+        "1995", "1996", "1997", "1998", "1999",
+        "oasis", "blur", "radiohead", "nirvana",
+        "take that", "spice girls", "robbie williams",
+        "pulp", "britpop", "alanis morissette",
+        "shania twain", "robbie williams", "blur",
+        "90s pop", "90s rock"
+      ]
+    }
+  ];
+  const GENERAL_CLASSIC_TERMS = [
+    "classic rock", "oldies", "reissue", "box set",
+    "remaster", "remastered", "anniversary edition",
+    "vinyl", "catalog", "catalogue", "hall of fame",
+    "archival", "unreleased", "gold disc", "platinum"
+  ];
+  const newsListEl = document.getElementById("sor-news-list");
+  const newsUpdatedEl = document.getElementById("sor-news-updated");
+  const filterBtns = Array.from(
+    document.querySelectorAll("#sor-home-hub .sor-filter-btn")
+  );
+  const refreshBtn = document.getElementById("sor-news-refresh");
+  let allFilteredArticles = [];
+  let activeEra = "all";
+  function stripHtml(html) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html || "";
+    return (tmp.textContent || tmp.innerText || "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+  function timeAgo(dateStr) {
+    const ts = Date.parse(dateStr);
+    if (isNaN(ts)) return "";
+    const diffMins = Math.max(
+      1,
+      Math.floor((Date.now() - ts) / 60000)
+    );
+    if (diffMins < 60) return diffMins + "m ago";
+    const diffHrs = Math.floor(diffMins / 60);
+    if (diffHrs < 24) return diffHrs + "h ago";
+    return Math.floor(diffHrs / 24) + "d ago";
+  }
+  function classifyArticle(title, description, trustedHeritage) {
+    const haystack = (title + " " + description).toLowerCase();
+    if (INAPPROPRIATE_NEWS_TERMS.some((badTerm) => haystack.includes(badTerm))) {
+      return { matched: false, era: "all", label: "" };
+    }
+    for (const rule of ERA_RULES) {
+      if (rule.terms.some((term) => haystack.includes(term))) {
+        return {
+          matched: true,
+          era: rule.era,
+          label: rule.label
+        };
+      }
+    }
+    if (
+      trustedHeritage ||
+      GENERAL_CLASSIC_TERMS.some((term) => haystack.includes(term))
+    ) {
+      return {
+        matched: true,
+        era: "all",
+        label: "50s–90s"
+      };
+    }
+    return { matched: false, era: "all", label: "" };
+  }
+  function renderNews() {
+    if (!newsListEl) return;
+    const items = activeEra === "all"
+      ? allFilteredArticles
+      : allFilteredArticles.filter((item) => item.era === activeEra);
+    if (!items.length) {
+      newsListEl.innerHTML =
+        '<div class="sor-news-loading">No headlines matched this decade right now. Try another filter or refresh.</div>';
+      return;
+    }
+    const articleMarkup = (item, featured) => {
+      const image = item.thumbnail
+        ? `<img class="sor-news-image" src="${item.thumbnail}" alt="" loading="lazy" onerror="this.closest('.sor-news-image-wrap').classList.add('is-empty');this.remove()">`
+        : "";
+      return `
+        <a class="sor-news-card featured?"is-featured":"""href="{item.link}" target="_blank" rel="noopener noreferrer">
+          <div class="sor-news-image-wrap ${item.thumbnail ? "" : "is-empty"}">
+            ${image}
+            <span class="sor-news-image-fallback" aria-hidden="true">♪</span>
+          </div>
+          <div class="sor-news-copy">
+            <div class="sor-news-meta">
+              <span class="sor-era-pill">${item.eraLabel}</span>
+              <span class="sor-news-source">${item.source}</span>
+              <span class="sor-news-time">${timeAgo(item.pubDate)}</span>
+            </div>
+            <h3 class="sor-news-headline">${item.title}</h3>
+            ${featured ? `<p class="sor-news-excerpt">${item.excerpt}</p>` : ""}
+          </div>
+        </a>`;
+    };
+    newsListEl.innerHTML = `
+      <div class="sor-news-featured">${articleMarkup(items[0], true)}</div>
+      <div class="sor-news-grid">${items.slice(1, 5).map((item) => articleMarkup(item, false)).join("")}</div>
+    `;
+  }
+  async function fetchLiveNews(forceRefresh) {
+    if (!newsListEl) return;
+    if (!forceRefresh) {
+      try {
+        const cachedRaw = localStorage.getItem(NEWS_CACHE_KEY);
+        if (cachedRaw) {
+          const cached = JSON.parse(cachedRaw);
+          if (
+            cached &&
+            Date.now() - cached.timestamp < NEWS_CACHE_TTL &&
+            Array.isArray(cached.articles) &&
+            cached.articles.length
+          ) {
+            allFilteredArticles = cached.articles.filter((article) => {
+              const text = (
+                (article.title || "") + " " + (article.excerpt || "")
+              ).toLowerCase();
+              return !INAPPROPRIATE_NEWS_TERMS.some((bad) =>
+                text.includes(bad)
+              );
+            });
+            renderNews();
+            if (newsUpdatedEl) {
+              newsUpdatedEl.textContent =
+                "Updated " + timeAgo(new Date(cached.timestamp).toISOString());
+            }
+            return;
+          }
+        }
+      } catch (error) {}
+    }
+    newsListEl.innerHTML =
+      '<div class="sor-news-loading">Fetching latest 1950s–1990s music industry headlines…</div>';
+    const results = await Promise.allSettled(
+      RSS_SOURCES.map(async (src) => {
+        const endpoint =
+          "https://api.rss2json.com/v1/api.json?rss_url=" +
+          encodeURIComponent(src.url);
+        const res = await fetch(endpoint);
+        if (!res.ok) throw new Error("Feed error");
+        const data = await res.json();
+        if (data.status !== "ok" || !Array.isArray(data.items)) return [];
+        return data.items.map((entry) => {
+          const cleanTitle = stripHtml(entry.title);
+          const cleanExcerpt = stripHtml(entry.description || entry.content);
+          const check = classifyArticle(
+            cleanTitle,
+            cleanExcerpt,
+            src.trustedHeritage
+          );
+          if (!check.matched) return null;
+          let thumb = entry.thumbnail || "";
+          if (!thumb && entry.enclosure && entry.enclosure.link) {
+            thumb = entry.enclosure.link;
+          }
+          return {
+            title: cleanTitle,
+            excerpt: cleanExcerpt,
+            link: entry.link,
+            pubDate: entry.pubDate,
+            source: src.name,
+            thumbnail: thumb,
+            era: check.era,
+            eraLabel: check.label
+          };
+        }).filter(Boolean);
+      })
+    );
+    const merged = [];
+    const seenTitles = new Set();
+    results.forEach((result) => {
+      if (result.status === "fulfilled" && Array.isArray(result.value)) {
+        result.value.forEach((article) => {
+          const key = article.title.toLowerCase();
+          if (!seenTitles.has(key)) {
+            seenTitles.add(key);
+            merged.push(article);
+          }
+        });
+      }
+    });
+    merged.sort(
+      (a, b) => (Date.parse(b.pubDate) || 0) - (Date.parse(a.pubDate) || 0)
+    );
+    if (merged.length) {
+      allFilteredArticles = merged;
+      try {
+        localStorage.setItem(
+          NEWS_CACHE_KEY,
+          JSON.stringify({
+            timestamp: Date.now(),
+            articles: merged
+          })
+        );
+      } catch (error) {}
+      renderNews();
+      if (newsUpdatedEl) newsUpdatedEl.textContent = "Updated just now";
+    } else {
+      newsListEl.innerHTML =
+        '<div class="sor-news-loading">Unable to load live feeds right now. Click Refresh to try again.</div>';
+    }
+  }
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((button) => button.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      activeEra = btn.getAttribute("data-era") || "all";
+      renderNews();
+    });
+  });
+  if (refreshBtn) {
+    refreshBtn.addEventListener("click", () => fetchLiveNews(true));
+  }
+  fetchLiveNews(false);
+/* =========================================================
+   1A. LIVE NOW PLAYING — MIRROR PRO.RADIO FOOTER ARTWORK
+   ========================================================= */
+const nowPlayingEl = document.getElementById("sor-now-playing-track");
+const nowPlayingArtEl = document.getElementById("sor-now-playing-art");
+const nowPlayingArtFallbackEl = document.getElementById(
+  "sor-now-playing-art-fallback"
+);
+let currentArtworkUrl = "";
+function showFallbackArtwork() {
+  if (nowPlayingArtEl) {
+    nowPlayingArtEl.hidden = true;
+  }
+  if (nowPlayingArtFallbackEl) {
+    nowPlayingArtFallbackEl.style.display = "block";
+  }
+}
+function showTrackArtwork(url) {
+  if (!nowPlayingArtEl || !url) return;
+  nowPlayingArtEl.hidden = false;
+  if (nowPlayingArtFallbackEl) {
+    nowPlayingArtFallbackEl.style.display = "none";
+  }
+}
+function syncProRadioArtwork() {
+  if (!nowPlayingArtEl) return;
+  const playerArtwork = document.querySelector(
+    "#qtmplayer .qtmplayer__cover img"
+  );
+  if (!playerArtwork) return;
+  const artworkUrl =
+    playerArtwork.currentSrc ||
+    playerArtwork.getAttribute("src") ||
+    playerArtwork.getAttribute("data-src") ||
+    "";
+  if (!artworkUrl) {
+    showFallbackArtwork();
+    return;
+  }
+  if (artworkUrl === currentArtworkUrl) {
+    if (
+      nowPlayingArtEl.complete &&
+      nowPlayingArtEl.naturalWidth > 0
+    ) {
+      showTrackArtwork(artworkUrl);
+    }
+    return;
+  }
+  currentArtworkUrl = artworkUrl;
+  nowPlayingArtEl.onload = () => {
+    if (nowPlayingArtEl.src === artworkUrl) {
+      showTrackArtwork(artworkUrl);
+    }
+  };
+  nowPlayingArtEl.onerror = () => {
+    if (currentArtworkUrl === artworkUrl) {
+      showFallbackArtwork();
+    }
+  };
+  nowPlayingArtEl.src = artworkUrl;
+  if (
+    nowPlayingArtEl.complete &&
+    nowPlayingArtEl.naturalWidth > 0
+  ) {
+    showTrackArtwork(artworkUrl);
+  }
+}
+/* Observe Pro.Radio player creation and artwork changes */
+let proRadioPlayerObserver = null;
+let proRadioArtworkObserver = null;
+function attachProRadioArtworkObserver() {
+  const player = document.getElementById("qtmplayer");
+  if (!player || proRadioArtworkObserver) return;
+  proRadioArtworkObserver = new MutationObserver(() => {
+    syncProRadioArtwork();
+  });
+  proRadioArtworkObserver.observe(player, {
+    subtree: true,
+    childList: true,
+    attributes: true,
+    attributeFilter: ["src", "data-src"]
+  });
+  syncProRadioArtwork();
+}
+function findProRadioPlayer() {
+  if (document.getElementById("qtmplayer")) {
+    attachProRadioArtworkObserver();
+    if (proRadioPlayerObserver) {
+      proRadioPlayerObserver.disconnect();
+      proRadioPlayerObserver = null;
+    }
+  }
+}
+findProRadioPlayer();
+if (!document.getElementById("qtmplayer")) {
+  proRadioPlayerObserver = new MutationObserver(findProRadioPlayer);
+  proRadioPlayerObserver.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+}
+/* Retry briefly while Pro.Radio initialises */
+syncProRadioArtwork();
+window.setInterval(syncProRadioArtwork, 2000);
+/* Live track information */
+async function refreshNowPlaying() {
+  if (!nowPlayingEl) return;
+  try {
+    const response = await fetch(
+      "https://simplyoldies.com/wp-json/sor/v1/now-playing",
+      { cache: "no-store" }
+    );
+    if (!response.ok) {
+      throw new Error("Now playing unavailable");
+    }
+    const track = (await response.text()).trim();
+    nowPlayingEl.textContent =
+      track || "Music playing on Simply Oldies Radio";
+  } catch (error) {
+    nowPlayingEl.textContent = "Tune in to hear the music";
+  }
+}
+refreshNowPlaying();
+window.setInterval(refreshNowPlaying, 30000);
+  /* =========================================================
+     2. YOUR LOCAL WEATHER
+     ========================================================= */
+  const wxLocationEl = document.getElementById("sor-wx-location");
+  const wxCurrentEl = document.getElementById("sor-wx-current");
+  const wxForecastEl = document.getElementById("sor-wx-forecast");
+  const wxForm = document.getElementById("sor-wx-form");
+  const wxInput = document.getElementById("sor-wx-input");
+  const wxGpsBtn = document.getElementById("sor-wx-gps-btn");
+  const WMO_MAP = {
+    0: { icon: "☀️", text: "Clear Sky" },
+    1: { icon: "🌤️", text: "Mainly Clear" },
+    2: { icon: "⛅", text: "Partly Cloudy" },
+    3: { icon: "☁️", text: "Overcast" },
+    45: { icon: "🌫️", text: "Fog" },
+    48: { icon: "🌫️", text: "Rime Fog" },
+    51: { icon: "🌦️", text: "Light Drizzle" },
+    53: { icon: "🌦️", text: "Drizzle" },
+    55: { icon: "🌧️", text: "Heavy Drizzle" },
+    61: { icon: "🌦️", text: "Light Rain" },
+    63: { icon: "🌧️", text: "Rain" },
+    65: { icon: "🌧️", text: "Heavy Rain" },
+    71: { icon: "🌨️", text: "Light Snow" },
+    73: { icon: "❄️", text: "Snow" },
+    75: { icon: "❄️", text: "Heavy Snow" },
+    80: { icon: "🌦️", text: "Rain Showers" },
+    81: { icon: "🌧️", text: "Showers" },
+    82: { icon: "⛈️", text: "Heavy Showers" },
+    95: { icon: "⛈️", text: "Thunderstorm" },
+    96: { icon: "⛈️", text: "Thunder & Hail" },
+    99: { icon: "⛈️", text: "Severe Storm" }
+  };
+  function getWmo(code) {
+    return WMO_MAP[Number(code)] || {
+      icon: "⛅",
+      text: "Mixed Cloud"
+    };
+  }
+  function formatDayLabel(dateStr, idx) {
+    if (idx === 0) return "Today";
+    if (idx === 1) return "Tomorrow";
+    return new Date(dateStr + "T12:00:00").toLocaleDateString(
+      "en-GB",
+      {
+        weekday: "short",
+        day: "numeric"
+      }
+    );
+  }
+  function setIdleWeatherPrompt(locationLabel, message) {
+    if (wxLocationEl) {
+      wxLocationEl.textContent = locationLabel || "Not set";
+    }
+    const text = message || "Click Locate Me to see your local weather";
+    if (wxCurrentEl) {
+      wxCurrentEl.innerHTML =
+        `<div class="sor-wx-loading">${text}</div>`;
+    }
+    if (wxForecastEl) {
+      wxForecastEl.innerHTML =
+        `<div class="sor-wx-loading">${text}</div>`;
+    }
+  }
+  function renderWeatherUI(
+    label,
+    tempC,
+    feelsLikeC,
+    windMph,
+    humidity,
+    weatherCode,
+    dailyDays
+  ) {
+    if (wxLocationEl) wxLocationEl.textContent = label;
+    const curInfo = getWmo(weatherCode);
+    if (wxCurrentEl) {
+      wxCurrentEl.innerHTML = `
+        <div class="sor-wx-now-main">
+          <div class="sor-wx-now-left">
+            <span class="sor-wx-now-icon" aria-hidden="true">${curInfo.icon}</span>
+            <div>
+              <div class="sor-wx-now-temp">${Math.round(tempC)}°C</div>
+              <div class="sor-wx-now-desc">${curInfo.text}</div>
+            </div>
+          </div>
+          <div class="sor-wx-now-stats">
+            <div>Feels like <strong>${Math.round(feelsLikeC)}°C</strong></div>
+            <div>Wind <strong>${Math.round(windMph)} mph</strong></div>
+            <div>Humidity <strong>${Math.round(humidity)}%</strong></div>
+          </div>
+        </div>`;
+    }
+    if (wxForecastEl) {
+      if (Array.isArray(dailyDays) && dailyDays.length) {
+        wxForecastEl.innerHTML = dailyDays.slice(0, 7).map((day, i) => {
+          const info = getWmo(day.code);
+          return `
+            <div class="sor-wx-day-row">
+              <span class="sor-wx-day-name">${formatDayLabel(day.date, i)}</span>
+              <span class="sor-wx-day-icon" aria-hidden="true">${info.icon}</span>
+              <span class="sor-wx-day-cond">${info.text}</span>
+              <span class="sor-wx-day-temps">
+                <span class="sor-wx-hi">${Math.round(day.hi)}°</span>
+                <span class="sor-wx-lo">${Math.round(day.lo)}°</span>
+              </span>
+            </div>`;
+        }).join("");
+      } else {
+        wxForecastEl.innerHTML =
+          '<div class="sor-wx-loading">Upcoming forecast unavailable.</div>';
+      }
+    }
+  }
+  async function loadWeatherForCoords(lat, lon, label) {
+    const numLat = Number(lat);
+    const numLon = Number(lon);
+    if (!Number.isFinite(numLat) || !Number.isFinite(numLon)) {
+      return false;
+    }
+    if (wxLocationEl) wxLocationEl.textContent = label;
+    try {
+      /* Corrected Open-Meteo URL construction */
+      const url =
+        `https://api.open-meteo.com/v1/forecast?latitude=${numLat.toFixed(4)}` +
+        `&longitude=${numLon.toFixed(4)}` +
+        `&current_weather=true` +
+        `&hourly=relative_humidity_2m,apparent_temperature` +
+        `&daily=weather_code,temperature_2m_max,temperature_2m_min` +
+        `&wind_speed_unit=mph&timezone=auto`;
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error("Open-Meteo HTTP " + res.status);
+      }
+      const data = await res.json();
+      if (!data || !data.current_weather) {
+        throw new Error("Missing current_weather");
+      }
+      const cw = data.current_weather;
+      let humidity = 72;
+      let feelsLike = cw.temperature;
+      if (data.hourly && Array.isArray(data.hourly.time)) {
+        const hourPrefix = String(cw.time || "").slice(0, 13);
+        const idx = data.hourly.time.findIndex((time) =>
+          time.startsWith(hourPrefix)
+        );
+        const useIdx = idx >= 0 ? idx : 0;
+        if (
+          Array.isArray(data.hourly.relative_humidity_2m) &&
+          data.hourly.relative_humidity_2m[useIdx] != null
+        ) {
+          humidity = data.hourly.relative_humidity_2m[useIdx];
+        }
+        if (
+          Array.isArray(data.hourly.apparent_temperature) &&
+          data.hourly.apparent_temperature[useIdx] != null
+        ) {
+          feelsLike = data.hourly.apparent_temperature[useIdx];
+        }
+      }
+      const dailyDays = [];
+      if (data.daily && Array.isArray(data.daily.time)) {
+        data.daily.time.forEach((date, i) => {
+          dailyDays.push({
+            date: date,
+            code: data.daily.weather_code
+              ? data.daily.weather_code[i]
+              : 2,
+            hi: data.daily.temperature_2m_max
+              ? data.daily.temperature_2m_max[i]
+              : cw.temperature,
+            lo: data.daily.temperature_2m_min
+              ? data.daily.temperature_2m_min[i]
+              : cw.temperature
+          });
+        });
+      }
+      renderWeatherUI(
+        label,
+        cw.temperature,
+        feelsLike,
+        cw.windspeed,
+        humidity,
+        cw.weathercode,
+        dailyDays
+      );
+      return true;
+    } catch (err) {
+      /* Secondary weather provider fallback */
+      try {
+        const wttrUrl =
+          `https://wttr.in/numLat.toFixed(3),{numLon.toFixed(3)}?format=j1`;
+        const wttrRes = await fetch(wttrUrl);
+        if (!wttrRes.ok) {
+          throw new Error("wttr fallback failed");
+        }
+        const wData = await wttrRes.json();
+        const cur = wData.current_condition && wData.current_condition[0];
+        if (!cur) throw new Error("No wttr current");
+        const dailyDays = (wData.weather || []).map((day) => ({
+          date: day.date,
+          code: 2,
+          hi: Number(day.maxtempC),
+          lo: Number(day.mintempC)
+        }));
+        renderWeatherUI(
+          label,
+          Number(cur.temp_C),
+          Number(cur.FeelsLikeC),
+          Number(cur.windspeedMiles),
+          Number(cur.humidity),
+          2,
+          dailyDays
+        );
+        return true;
+      } catch (fallbackErr) {
+        setIdleWeatherPrompt(
+          label,
+          "Click Locate Me to see your local weather"
+        );
+        return false;
+      }
+    }
+  }
+  if (wxForm && wxInput) {
+    wxForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const query = wxInput.value.trim();
+      if (!query) return;
+      if (wxLocationEl) wxLocationEl.textContent = "Searching…";
+      try {
+        const geoRes = await fetch(
+          "https://geocoding-api.open-meteo.com/v1/search?name=" +
+          encodeURIComponent(query) +
+          "&count=1&language=en&format=json"
+        );
+        const geoData = await geoRes.json();
+        if (
+          geoData &&
+          Array.isArray(geoData.results) &&
+          geoData.results.length
+        ) {
+          const hit = geoData.results[0];
+          const label = [
+            hit.name,
+            hit.country_code
+          ].filter(Boolean).join(", ");
+          await loadWeatherForCoords(
+            hit.latitude,
+            hit.longitude,
+            label
+          );
+        } else {
+          setIdleWeatherPrompt(
+            "Not found",
+            "Click Locate Me to see your local weather"
+          );
+        }
+      } catch (err) {
+        setIdleWeatherPrompt(
+          "Not set",
+          "Click Locate Me to see your local weather"
+        );
+      }
+    });
+  }
+  if (wxGpsBtn) {
+    wxGpsBtn.addEventListener("click", () => {
+      if (!("geolocation" in navigator)) {
+        setIdleWeatherPrompt(
+          "Not set",
+          "Click Locate Me to see your local weather"
+        );
+        return;
+      }
+      if (wxLocationEl) wxLocationEl.textContent = "Locating…";
+      if (wxCurrentEl) {
+        wxCurrentEl.innerHTML =
+          '<div class="sor-wx-loading">Checking local forecast…</div>';
+      }
+      if (wxForecastEl) {
+        wxForecastEl.innerHTML =
+          '<div class="sor-wx-loading">Loading upcoming forecast…</div>';
+      }
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          let place = "Your Location";
+          try {
+            const rev = await fetch(
+              `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=lat&longitude={lon}&localityLanguage=en`
+            );
+            if (rev.ok) {
+              const rData = await rev.json();
+              place = [
+                rData.city || rData.locality,
+                rData.countryCode
+              ].filter(Boolean).join(", ") || place;
+            }
+          } catch (error) {}
+          loadWeatherForCoords(lat, lon, place);
+        },
+        () => {
+          setIdleWeatherPrompt(
+            "Not set",
+            "Click Locate Me to see your local weather"
+          );
+        },
+        { timeout: 8000 }
+      );
+    });
+  }
+  setIdleWeatherPrompt(
+    "Not set",
+    "Click Locate Me to see your local weather"
+  );
+  /* =========================================================
+     3. ON THIS DAY IN MUSIC HISTORY — 1950s TO 1990s
+     ========================================================= */
+  const otdDateBadge = document.getElementById("sor-otd-date-badge");
+  const otdBodyEl = document.getElementById("sor-otd-body");
+  const MUSIC_CONTEXT_WORDS = [
+    "album", "single", "song", "band", "singer", "musician",
+    "guitarist", "drummer", "bassist", "pianist", "songwriter",
+    "composer", "record label", "recording", "studio", "chart",
+    "billboard", "uk singles", "uk albums", "number-one single",
+    "number-one album", "no. 1", "concert", "tour", "festival",
+    "woodstock", "live aid", "hall of fame", "grammy",
+    "brit award", "vinyl", "gold record", "platinum", "pop",
+    "rock", "soul", "motown", "disco", "punk", "grunge",
+    "britpop", "hip hop", "jazz", "blues", "country"
+  ];
+  const ICONIC_50S_90S_ARTISTS = [
+    "beatles", "john lennon", "paul mccartney",
+    "george harrison", "ringo starr", "rolling stones",
+    "mick jagger", "keith richards", "bob dylan",
+    "elvis presley", "david bowie", "queen",
+    "freddie mercury", "brian may", "elton john",
+    "fleetwood mac", "stevie nicks", "abba", "bee gees",
+    "pink floyd", "led zeppelin", "the who", "pete townshend",
+    "keith moon", "the kinks", "beach boys", "aretha franklin",
+    "stevie wonder", "marvin gaye", "motown", "the supremes",
+    "michael jackson", "madonna", "prince", "whitney houston",
+    "george michael", "u2", "the police", "sting", "oasis",
+    "nirvana", "kurt cobain", "radiohead", "blur",
+    "frank sinatra", "buddy holly", "chuck berry",
+    "johnny cash", "bo diddley", "paul simon"
+  ];
+  const NON_MUSIC_BLOCKLIST = [
+    "microsoft", "windows 1.0", "computer", "software",
+    "operating system", "nasa", "spacecraft", "satellite",
+    "apollo", "election", "president", "prime minister",
+    "parliament", "senate", "court", "supreme court",
+    "war", "battle", "treaty", "invasion", "olympic",
+    "football", "soccer", "baseball", "basketball",
+    "tennis", "golf", "championship", "world cup",
+    "american actor", "british actor", "english actor",
+    "television actor", "film actor", "child actor",
+    "hannah montana", "disney channel"
+  ];
+  const NOV_20_MUSIC_EVENTS = [
+    {
+      year: 1955,
+      text: '<strong>Bo Diddley</strong> performed "Bo Diddley" on <em>The Ed Sullivan Show</em> instead of the requested "Sixteen Tons," resulting in a ban from the programme.',
+      page: "Bo Diddley"
+    },
+    {
+      year: 1961,
+      text: "<strong>Bob Dylan</strong> began recording his debut studio album at Columbia Records in New York City.",
+      page: "Bob Dylan"
+    },
+    {
+      year: 1965,
+      text: '<strong>The Supremes</strong> reached No. 1 on the US chart with "I Hear a Symphony."',
+      page: "I Hear a Symphony"
+    },
+    {
+      year: 1973,
+      text: "<strong>The Who</strong> drummer Keith Moon passed out onstage in San Francisco, and 19-year-old audience member Scott Halpin stepped in on drums for the closing songs.",
+      page: "The Who"
+    },
+    {
+      year: 1976,
+      text: '<strong>Paul Simon</strong> hosted <em>Saturday Night Live</em> and performed "Homeward Bound" and "Here Comes the Sun" alongside <strong>George Harrison</strong>.',
+      page: "Paul Simon"
+    },
+    {
+      year: 1991,
+      text: "<strong>The Rolling Stones</strong> signed a landmark three-album recording deal with Virgin Records.",
+      page: "The Rolling Stones"
+    }
+  ];
+  function getDecadeLabel(year) {
+    const y = Number(year);
+    if (y >= 1950 && y <= 1959) return "1950s Milestone";
+    if (y >= 1960 && y <= 1969) return "1960s Milestone";
+    if (y >= 1970 && y <= 1979) return "1970s Milestone";
+    if (y >= 1980 && y <= 1989) return "1980s Milestone";
+    if (y >= 1990 && y <= 1999) return "1990s Milestone";
+    return "50s–90s Milestone";
+  }
+  function scoreMusicEntry(ev, isBirthList) {
+    const y = Number(ev.year);
+    if (y < 1950 || y > 1999) return -1;
+    const lower = String(ev.text || "").toLowerCase();
+    if (NON_MUSIC_BLOCKLIST.some((term) => lower.includes(term))) {
+      return -1;
+    }
+    const hasMusicWord = MUSIC_CONTEXT_WORDS.some((word) =>
+      lower.includes(word)
+    );
+    const hasIconicArtist = ICONIC_50S_90S_ARTISTS.some((artist) =>
+      lower.includes(artist)
+    );
+    if (!hasMusicWord && !hasIconicArtist) return -1;
+    if (isBirthList) return hasIconicArtist ? 2 : -1;
+    if (hasMusicWord && hasIconicArtist) return 5;
+    if (hasMusicWord) return 4;
+    return 3;
+  }
+  function renderOnThisDay(year, text, imageUrl) {
+    if (!otdBodyEl) return;
+    const safeImage =
+      imageUrl && /^https?:\/\//i.test(imageUrl)
+        ? `<img class="sor-otd-image" src="${imageUrl}" alt="Photograph relating to this day in music history" loading="lazy" onerror="this.remove()">`
+        : "";
+    otdBodyEl.innerHTML = `
+      <div class="sor-otd-top-row">
+        <span class="sor-otd-year-badge">📅 ${year}</span>
+        <span class="sor-otd-era-label">${getDecadeLabel(year)}</span>
+      </div>
+      <p class="sor-otd-text">${text}</p>
+      ${safeImage}
+    `;
+  }
+  /*
+   * Retrieve a thumbnail from Wikipedia when the On This Day
+   * event itself does not include an image.
+   */
+  async function getWikipediaImage(pageTitle) {
+    if (!pageTitle) return "";
+    try {
+      const endpoint =
+        "https://en.wikipedia.org/api/rest_v1/page/summary/" +
+        encodeURIComponent(pageTitle.replace(/ /g, "_"));
+      const response = await fetch(endpoint);
+      if (!response.ok) return "";
+      const data = await response.json();
+      if (data.thumbnail && data.thumbnail.source) {
+        return data.thumbnail.source;
+      }
+      if (data.originalimage && data.originalimage.source) {
+        return data.originalimage.source;
+      }
+      return "";
+    } catch (error) {
+      return "";
+    }
+  }
+  async function loadOnThisDayInMusic() {
+    const formatter = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/London",
+      month: "2-digit",
+      day: "2-digit"
+    });
+    const parts = {};
+    formatter.formatToParts(new Date()).forEach((part) => {
+      parts[part.type] = part.value;
+    });
+    const mm = parts.month || "11";
+    const dd = parts.day || "20";
+    const displayLabel = new Date(
+      Date.UTC(2026, Number(mm) - 1, Number(dd), 12)
+    ).toLocaleDateString("en-GB", {
+      timeZone: "UTC",
+      day: "numeric",
+      month: "short"
+    }).toUpperCase();
+    if (otdDateBadge) {
+      otdDateBadge.textContent = displayLabel;
+    }
+    /* New cache version prevents old image-less entries persisting */
+    const cacheKey = `sor_otd_music_v6_${mm}_${dd}`;
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (
+          parsed &&
+          parsed.year &&
+          parsed.text &&
+          parsed.image
+        ) {
+          renderOnThisDay(parsed.year, parsed.text, parsed.image);
+          return;
+        }
+      }
+    } catch (error) {}
+    try {
+      const res = await fetch(
+        `https://en.wikipedia.org/api/rest_v1/feed/onthisday/all/mm/{dd}`
+      );
+      if (!res.ok) {
+        throw new Error("Wikipedia OTD HTTP " + res.status);
+      }
+      const data = await res.json();
+      const eventPool = [
+        ...(Array.isArray(data.selected) ? data.selected : []),
+        ...(Array.isArray(data.events) ? data.events : [])
+      ].map((event) => ({
+        ev: event,
+        score: scoreMusicEntry(event, false)
+      })).filter((item) => item.score > 0);
+      const birthPool = (
+        Array.isArray(data.births) ? data.births : []
+      ).map((event) => ({
+        ev: event,
+        score: scoreMusicEntry(event, true)
+      })).filter((item) => item.score > 0);
+      const ranked = (eventPool.length ? eventPool : birthPool)
+        .sort((a, b) => b.score - a.score);
+      if (ranked.length) {
+        /*
+         * Prefer events with an available image rather than choosing
+         * an image-less event simply because it scored highly.
+         */
+        const imageCandidates = ranked.filter((item) => {
+          const pages = Array.isArray(item.ev.pages)
+            ? item.ev.pages
+            : [];
+          return pages.some((page) =>
+            page.thumbnail && page.thumbnail.source
+          );
+        });
+        const candidates = imageCandidates.length
+          ? imageCandidates
+          : ranked;
+        const topScore = candidates[0].score;
+        const topTier = candidates.filter(
+          (item) => item.score === topScore
+        );
+        const chosen =
+          topTier[Number(dd) % topTier.length].ev;
+        const cleanText = String(chosen.text || "").trim();
+        const pageWithImage = Array.isArray(chosen.pages)
+          ? chosen.pages.find((page) =>
+              page.thumbnail && page.thumbnail.source
+            )
+          : null;
+        let imageUrl = pageWithImage
+          ? pageWithImage.thumbnail.source
+          : "";
+        /*
+         * If the chosen event has no thumbnail, try its Wikipedia page.
+         */
+        if (!imageUrl && Array.isArray(chosen.pages) && chosen.pages.length) {
+          const pageTitle = chosen.pages[0].title;
+          imageUrl = await getWikipediaImage(pageTitle);
+        }
+        const result = {
+          year: chosen.year,
+          text: cleanText,
+          image: imageUrl
+        };
+        /*
+         * Only cache results when an image was found.
+         * This allows another attempt if Wikipedia has no image today.
+         */
+        if (imageUrl) {
+          try {
+            localStorage.setItem(
+              cacheKey,
+              JSON.stringify(result)
+            );
+          } catch (error) {}
+        }
+        renderOnThisDay(
+          chosen.year,
+          cleanText,
+          imageUrl
+        );
+        return;
+      }
+    } catch (error) {}
+    /*
+     * Special date fallback for 20 November.
+     */
+    if (mm === "11" && dd === "20") {
+      const todayEvent =
+        NOV_20_MUSIC_EVENTS[
+          new Date().getDate() % NOV_20_MUSIC_EVENTS.length
+        ];
+      let imageUrl = await getWikipediaImage(todayEvent.page);
+      renderOnThisDay(
+        todayEvent.year,
+        todayEvent.text,
+        imageUrl
+      );
+      return;
+    }
+    /*
+     * General fallback if Wikipedia has no suitable event.
+     */
+    const fallback =
+      NOV_20_MUSIC_EVENTS[
+        (Number(dd) + Number(mm)) % NOV_20_MUSIC_EVENTS.length
+      ];
+    const fallbackImage = await getWikipediaImage(fallback.page);
+    renderOnThisDay(
+      fallback.year,
+      fallback.text,
+      fallbackImage
+    );
+  }
+  loadOnThisDayInMusic();
+})();
+</script>
+
