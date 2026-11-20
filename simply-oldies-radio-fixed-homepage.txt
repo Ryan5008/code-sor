@@ -126,7 +126,7 @@
   #sor-home-hub .sor-home-columns { display:grid; grid-template-columns:minmax(0,1.9fr) minmax(270px,.82fr); gap:26px; align-items:start; }
   #sor-home-hub .sor-section-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin:0 0 12px; }
   #sor-home-hub .sor-news-heading-copy { min-width:0; }
-  #sor-home-hub .sor-news-disclaimer { margin:3px 0 0!important; color:var(--sor-muted)!important; font-size:9px!important; line-height:1.4!important; font-weight:400!important; max-width:520px; }
+  #sor-home-hub .sor-news-disclaimer { margin:3px 0 0!important; color:var(--sor-muted)!important; font-size:11px!important; line-height:1.45!important; font-weight:400!important; max-width:520px; }
   #sor-home-hub .sor-section-heading h2, #sor-home-hub .sor-feature-heading h2 { margin:0!important; color:var(--sor-ink)!important; font-size:19px!important; line-height:1.2!important; font-weight:800!important; }
   #sor-home-hub .sor-section-heading>span { color:var(--sor-muted); font-size:10px; font-weight:700; }
   #sor-home-hub .sor-news-toolbar { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:13px; padding-bottom:10px; border-bottom:1px solid var(--sor-border); }
