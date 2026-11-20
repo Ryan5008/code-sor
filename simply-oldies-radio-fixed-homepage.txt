@@ -9,7 +9,6 @@
       <h1>Latest from Simply Oldies</h1>
       <p class="sor-home-intro">The Music You Grew Up With</p>
     </div>
-    <a class="sor-schedule-link" href="https://simplyoldies.com/schedule/">View programme schedule <span aria-hidden="true">›</span></a>
   </div>
 
   <div class="sor-home-columns">
@@ -121,8 +120,6 @@
   #sor-home-hub .sor-eyebrow { margin:0 0 5px; color:var(--sor-burgundy); font-size:10px; font-weight:800; letter-spacing:1.15px; text-transform:uppercase; }
   #sor-home-hub .sor-home-heading h1 { margin:0!important; color:var(--sor-ink)!important; font-size:clamp(25px,3vw,34px)!important; line-height:1.12!important; font-weight:800!important; letter-spacing:-.6px!important; }
   #sor-home-hub .sor-home-intro { margin:6px 0 0!important; color:var(--sor-muted)!important; font-size:14px!important; }
-  #sor-home-hub .sor-schedule-link { color:var(--sor-burgundy); font-size:12px; font-weight:700; text-decoration:none; white-space:nowrap; }
-  #sor-home-hub .sor-schedule-link:hover { text-decoration:underline; }
   #sor-home-hub .sor-home-columns { display:grid; grid-template-columns:minmax(0,1.9fr) minmax(270px,.82fr); gap:26px; align-items:start; }
   #sor-home-hub .sor-section-heading { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin:0 0 12px; }
   #sor-home-hub .sor-section-heading h2, #sor-home-hub .sor-feature-heading h2 { margin:0!important; color:var(--sor-ink)!important; font-size:19px!important; line-height:1.2!important; font-weight:800!important; }
@@ -236,6 +233,81 @@
     #sor-home-hub .sor-listen-block { grid-column:auto; }
     #sor-home-hub .sor-feature-panel { padding:13px; }
   }
+  /* Keep the Pro.Radio play/pause glyph white inside the relocated live button. */
+  #sor-home-hub .sor-sidebar-action-slot .qtmplayer__play,
+  #sor-home-hub .sor-sidebar-action-slot .qtmplayer__play i,
+  #sor-home-hub .sor-sidebar-action-slot .qtmplayer__play .material-icons,
+  #sor-home-hub .sor-sidebar-action-slot [data-qtmplayer-playbtn] i {
+    color:#fff!important;
+    -webkit-text-fill-color:#fff!important;
+    opacity:1!important;
+  }
+  #sor-home-hub .sor-sidebar-action-slot .qtmplayer__play svg,
+  #sor-home-hub .sor-sidebar-action-slot [data-qtmplayer-playbtn] svg {
+    fill:#fff!important;
+    color:#fff!important;
+  }
+
+  /* Prevent theme button rules from hiding decade-filter labels on narrow screens. */
+  #sor-home-hub .sor-news-toolbar { min-width:0; }
+  #sor-home-hub .sor-news-filters {
+    display:flex!important;
+    flex:1 1 auto;
+    min-width:0;
+    flex-wrap:wrap!important;
+    align-items:center;
+    gap:5px;
+    overflow:visible!important;
+  }
+  #sor-home-hub button.sor-filter-btn {
+    display:inline-flex!important;
+    flex:0 0 auto;
+    align-items:center!important;
+    justify-content:center!important;
+    width:auto!important;
+    min-width:0!important;
+    max-width:none!important;
+    min-height:32px!important;
+    height:auto!important;
+    padding:7px 9px!important;
+    overflow:visible!important;
+    visibility:visible!important;
+    opacity:1!important;
+    text-indent:0!important;
+    white-space:nowrap!important;
+    font-family:inherit!important;
+    font-size:11px!important;
+    line-height:1.2!important;
+    font-weight:700!important;
+    -webkit-text-fill-color:currentColor!important;
+  }
+  #sor-home-hub button.sor-filter-btn:not(.is-active) {
+    color:var(--sor-muted)!important;
+  }
+  #sor-home-hub button.sor-filter-btn.is-active {
+    color:#fff!important;
+    -webkit-text-fill-color:#fff!important;
+  }
+  #sor-home-hub button.sor-filter-btn::before,
+  #sor-home-hub button.sor-filter-btn::after {
+    content:none!important;
+    display:none!important;
+  }
+  @media(max-width:480px) {
+    #sor-home-hub .sor-news-toolbar {
+      align-items:flex-start!important;
+      flex-wrap:wrap!important;
+      gap:8px;
+    }
+    #sor-home-hub .sor-news-filters {
+      flex:1 1 100%;
+      width:100%;
+    }
+    #sor-home-hub button.sor-refresh-btn {
+      margin-left:auto;
+    }
+  }
+
   @media(prefers-reduced-motion:reduce) {
     #sor-home-hub * { scroll-behavior:auto!important; transition:none!important; }
   }
