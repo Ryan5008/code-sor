@@ -296,7 +296,7 @@
     font-size:17px!important;
     line-height:1!important;
     vertical-align:middle!important;
-    transform:translateY(-0.3px)!important;
+    transform:translateY(-0.5px)!important;
   }
 
   /* Keep the Pro.Radio play/pause glyph white inside the relocated live button. */
