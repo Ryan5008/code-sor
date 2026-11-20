@@ -401,29 +401,25 @@
      1. MUSIC NEWS — 1950s TO 1990s
      ========================================================= */
 
-  const NEWS_CACHE_KEY = "sor_50s_90s_news_v2";
+  const NEWS_CACHE_KEY = "sor_50s_90s_news_v3";
   const NEWS_CACHE_TTL = 30 * 60 * 1000;
 
   const RSS_SOURCES = [
     {
       name: "Ultimate Classic Rock",
       url: "https://ultimateclassicrock.com/feed/",
-      trustedHeritage: true
     },
     {
       name: "Classic Rock",
       url: "https://www.loudersound.com/feeds.xml",
-      trustedHeritage: true
     },
     {
       name: "Music Business Worldwide",
       url: "https://www.musicbusinessworldwide.com/feed/",
-      trustedHeritage: false
     },
     {
       name: "NME",
       url: "https://www.nme.com/news/music/feed",
-      trustedHeritage: false
     }
   ];
 
@@ -558,13 +554,6 @@ const INAPPROPRIATE_NEWS_TERMS = [
     }
   ];
 
-  const GENERAL_CLASSIC_TERMS = [
-    "classic rock", "oldies", "reissue", "box set",
-    "remaster", "remastered", "anniversary edition",
-    "vinyl", "catalog", "catalogue", "hall of fame",
-    "archival", "unreleased", "gold disc", "platinum"
-  ];
-
   const newsListEl = document.getElementById("sor-news-list");
   const newsUpdatedEl = document.getElementById("sor-news-updated");
   const filterBtns = Array.from(
@@ -603,7 +592,7 @@ const INAPPROPRIATE_NEWS_TERMS = [
     return Math.floor(diffHrs / 24) + "d ago";
   }
 
-  function classifyArticle(title, description, trustedHeritage) {
+  function classifyArticle(title, description) {
     const haystack = (title + " " + description).toLowerCase();
 
     if (INAPPROPRIATE_NEWS_TERMS.some((badTerm) => haystack.includes(badTerm))) {
@@ -618,17 +607,6 @@ const INAPPROPRIATE_NEWS_TERMS = [
           label: rule.label
         };
       }
-    }
-
-    if (
-      trustedHeritage ||
-      GENERAL_CLASSIC_TERMS.some((term) => haystack.includes(term))
-    ) {
-      return {
-        matched: true,
-        era: "all",
-        label: "50s–90s"
-      };
     }
 
     return { matched: false, era: "all", label: "" };
@@ -692,24 +670,43 @@ const INAPPROPRIATE_NEWS_TERMS = [
             Array.isArray(cached.articles) &&
             cached.articles.length
           ) {
-            allFilteredArticles = cached.articles.filter((article) => {
-              const text = (
-                (article.title || "") + " " + (article.excerpt || "")
-              ).toLowerCase();
+            allFilteredArticles = cached.articles
+              .map((article) => {
+                const check = classifyArticle(
+                  article.title || "",
+                  article.excerpt || ""
+                );
 
-              return !INAPPROPRIATE_NEWS_TERMS.some((bad) =>
-                text.includes(bad)
+                if (!check.matched) return null;
+
+                return {
+                  ...article,
+                  era: check.era,
+                  eraLabel: check.label
+                };
+              })
+              .filter(Boolean);
+
+            try {
+              localStorage.setItem(
+                NEWS_CACHE_KEY,
+                JSON.stringify({
+                  timestamp: Date.now(),
+                  articles: allFilteredArticles
+                })
               );
-            });
+            } catch (error) {}
 
-            renderNews();
+            if (allFilteredArticles.length) {
+              renderNews();
 
-            if (newsUpdatedEl) {
-              newsUpdatedEl.textContent =
-                "Updated " + timeAgo(new Date(cached.timestamp).toISOString());
+              if (newsUpdatedEl) {
+                newsUpdatedEl.textContent =
+                  "Updated " + timeAgo(new Date(cached.timestamp).toISOString());
+              }
+
+              return;
             }
-
-            return;
           }
         }
       } catch (error) {}
@@ -736,11 +733,7 @@ const INAPPROPRIATE_NEWS_TERMS = [
           const cleanTitle = stripHtml(entry.title);
           const cleanExcerpt = stripHtml(entry.description || entry.content);
 
-          const check = classifyArticle(
-            cleanTitle,
-            cleanExcerpt,
-            src.trustedHeritage
-          );
+          const check = classifyArticle(cleanTitle, cleanExcerpt);
 
           if (!check.matched) return null;
 
