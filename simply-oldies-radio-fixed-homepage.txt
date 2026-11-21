@@ -630,7 +630,7 @@ const INAPPROPRIATE_NEWS_TERMS = [
 
     if (!items.length) {
       newsListEl.innerHTML =
-        '<div class="sor-news-loading sor-news-empty-state">No headlines matched this decade right now. Try another filter or refresh.<img class="sor-news-empty-image" src="https://simplyoldies.com/wp-content/uploads/2020/06/SOR-UNIFIED-WEB-BANNER.png" alt="Simply Oldies Radio — The Music You Grew Up With" loading="lazy"></div>';
+        '<div class="sor-news-loading sor-news-empty-state">No headlines matched this decade right now. Try another decade or refresh.<img class="sor-news-empty-image" src="https://simplyoldies.com/wp-content/uploads/2020/06/SOR-UNIFIED-WEB-BANNER.png" alt="Simply Oldies Radio — The Music You Grew Up With" loading="lazy"></div>';
       return;
     }
 
