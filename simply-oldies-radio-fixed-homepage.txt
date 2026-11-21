@@ -633,13 +633,14 @@ const INAPPROPRIATE_NEWS_TERMS = [
     }
 
     const articleMarkup = (item, featured) => {
-      const image = item.thumbnail
+      const hasThumbnail = typeof item.thumbnail === "string" && item.thumbnail.trim() !== "";
+      const image = hasThumbnail
         ? `<img class="sor-news-image" src="${item.thumbnail}" alt="" loading="lazy" onerror="this.closest('.sor-news-image-wrap').classList.add('is-empty');this.remove()">`
         : "";
 
       return `
         <a class="sor-news-card ${featured ? "is-featured" : ""}" href="${item.link}" target="_blank" rel="noopener noreferrer">
-          <div class="sor-news-image-wrap ${item.thumbnail ? "" : "is-empty"}">
+          <div class="sor-news-image-wrap ${hasThumbnail ? "" : "is-empty"}">
             ${image}
             <span class="sor-news-image-fallback" aria-hidden="true">♪</span>
           </div>
@@ -655,9 +656,17 @@ const INAPPROPRIATE_NEWS_TERMS = [
         </a>`;
     };
 
+    // Promote the first article with an image into the featured position.
+    // This is calculated after decade filtering, so every category gets its own image-led lead story.
+    const featuredIndex = items.findIndex((item) =>
+      typeof item.thumbnail === "string" && item.thumbnail.trim() !== ""
+    );
+    const featuredItem = featuredIndex >= 0 ? items[featuredIndex] : items[0];
+    const remainingItems = items.filter((item) => item !== featuredItem).slice(0, 4);
+
     newsListEl.innerHTML = `
-      <div class="sor-news-featured">${articleMarkup(items[0], true)}</div>
-      <div class="sor-news-grid">${items.slice(1, 5).map((item) => articleMarkup(item, false)).join("")}</div>
+      <div class="sor-news-featured">${articleMarkup(featuredItem, true)}</div>
+      <div class="sor-news-grid">${remainingItems.map((item) => articleMarkup(item, false)).join("")}</div>
     `;
   }
 
