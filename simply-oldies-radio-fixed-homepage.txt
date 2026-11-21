@@ -106,6 +106,8 @@
   #sor-home-hub button.sor-filter-btn:hover, #sor-home-hub button.sor-refresh-btn:hover { color:var(--sor-burgundy)!important; }
   #sor-home-hub button.sor-refresh-btn { white-space:nowrap; }
   #sor-home-hub .sor-news-list { min-width:0; }
+  #sor-home-hub .sor-news-empty-state { margin:0; text-align:center; }
+  #sor-home-hub .sor-news-empty-image { display:block; width:100%; max-width:640px; height:auto; margin:15px auto 0; border-radius:12px; }
   #sor-home-hub .sor-news-featured { margin-bottom:14px; }
   #sor-home-hub .sor-news-card { display:block; min-width:0; overflow:hidden; background:#fff; border:1px solid var(--sor-border); text-decoration:none!important; transition:border-color .18s ease,box-shadow .18s ease; }
   #sor-home-hub .sor-news-card:hover { border-color:#cfc3cb; box-shadow:0 5px 18px rgba(30,15,25,.07); }
@@ -628,7 +630,7 @@ const INAPPROPRIATE_NEWS_TERMS = [
 
     if (!items.length) {
       newsListEl.innerHTML =
-        '<div class="sor-news-loading">No headlines matched this decade right now. Try another filter or refresh.</div>';
+        '<div class="sor-news-loading sor-news-empty-state">No headlines matched this decade right now. Try another filter or refresh.<img class="sor-news-empty-image" src="https://simplyoldies.com/wp-content/uploads/2020/06/SOR-UNIFIED-WEB-BANNER.png" alt="Simply Oldies Radio — The Music You Grew Up With" loading="lazy"></div>';
       return;
     }
 
